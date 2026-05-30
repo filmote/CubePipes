@@ -6,8 +6,8 @@ using uint24_t = __uint24;
 
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
-constexpr uint16_t FX_DATA_PAGE  = 0xff2b;
-constexpr uint24_t FX_DATA_BYTES = 50421;
+constexpr uint16_t FX_DATA_PAGE  = 0xfef0;
+constexpr uint24_t FX_DATA_BYTES = 65401;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -33,5 +33,22 @@ namespace Images
   constexpr uint24_t Mini_HUD = 0x00B16F;
   constexpr uint24_t Numbers_HUD = 0x00B231;
   constexpr uint24_t Numbers_5x3_2D_WB = 0x00BB93;
+  constexpr uint24_t Block_Left_01 = 0x00C4F5;
+  constexpr uint24_t Block_Left_02 = 0x00C737;
+  constexpr uint24_t Block_Left_03 = 0x00C979;
+  constexpr uint24_t Block_Left_04 = 0x00CBBB;
+  constexpr uint24_t Block_Right_01 = 0x00CDFD;
+  constexpr uint24_t Block_Right_02 = 0x00D03F;
+  constexpr uint24_t Block_Right_03 = 0x00D281;
+  constexpr uint24_t Block_Right_04 = 0x00D4C3;
+  constexpr uint24_t Block_Top_01 = 0x00D705;
+  constexpr uint24_t Block_Top_02 = 0x00DB57;
+  constexpr uint24_t Block_Top_03 = 0x00DFA9;
+  constexpr uint24_t Block_Top_04 = 0x00E3FB;
+  constexpr uint24_t Cursor_Top = 0x00E84D;
+  constexpr uint24_t Cursor_Left = 0x00E963;
+  constexpr uint24_t Cursor_Right = 0x00EA3D;
+  constexpr uint24_t Background_07 = 0x00EB17;
+  constexpr uint24_t Complete = 0x00F719;
 }
 

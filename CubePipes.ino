@@ -41,6 +41,23 @@ LevelSelect levelSelect;
 PopoutMenu popoutMenu;
 Puff puff;
 
+
+
+
+// ─── Constants ────────────────────────────────────────────────────────────────
+#define MAX_GRID_W  7
+#define MAX_GRID_H  7
+#define MAX_TILES   (MAX_GRID_W * MAX_GRID_H)
+
+#define TILE_W      13
+#define TILE_H      11
+
+#define DIR_RIGHT   1
+#define DIR_DOWN    2
+#define DIR_LEFT    4
+#define DIR_UP      8
+
+
 void setup() {
 
     a.boot();
