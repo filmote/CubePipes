@@ -5,6 +5,10 @@ bool debug = false;
 
 void play_Init() { 
 
+    popoutMenu.setSelect(0);
+    popoutMenu.setX(128);
+    popoutMenu.setDirection(Direction::None);
+
     gameState = nextGameState; //GameState::Play;
 
 }
@@ -71,9 +75,10 @@ void play_Update() {
     game.incFrameCount();
 
     if (gameState == GameState::Play) {
-
+Serial.println("GameState::Play");
         if (popoutMenu.getX() == 128) {
-            
+Serial.println("popoutMenu.getX() == 128");
+
             // if (doIncLava) {
             //     incLava();
             //     doIncLava = false;
@@ -178,7 +183,7 @@ void play_Update() {
 
             
         // Open menu ..
-
+Serial.println(justPressed);
         if (justPressed & B_BUTTON) {
                     
             if (popoutMenu.getX() == 128) {
@@ -263,6 +268,10 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
     SpritesU::drawOverwriteFX(121, 50, Images::Numbers_HUD, ((game.getMoveCount() / 10) * 3) + currentPlane);
     SpritesU::drawOverwriteFX(121, 54, Images::Numbers_HUD, ((game.getMoveCount() % 100) * 3) + currentPlane);
 
+
+    if (popoutMenu.getX() < 128) {
+        SpritesU::drawOverwriteFX(popoutMenu.getX(), 0, Images::Menu, ((popoutMenu.getSelect() + (game.getUndoCount() == 0 ? 2 : 0)) * 3) + ((popoutMenu.getAllowClose() ? 0 : 5) * 3) + currentPlane);
+    }
 
 
     // Fade Out
