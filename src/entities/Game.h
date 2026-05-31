@@ -12,6 +12,7 @@ struct Game {
 
         uint8_t puzzle_Orig[21] ;
         uint8_t puzzle[21];
+        uint8_t puzzle_Grey[21];
 
     private:
 
@@ -53,7 +54,7 @@ struct Game {
 
         void resetLevel() {
 
-            this->undoCount= 0;
+            this->undoCount = 0;
 
         }
 

@@ -61,15 +61,26 @@ void play_Init() {
     memcpy_P(game.puzzle_Orig, puzzles[game.getLevel()], 21);
     game.setCursor(0);
 
-	for (uint8_t i = 0; i < 21; i++) {
+	for (uint8_t i = 0; i < 21; i++) { // SJH
+	// for (uint8_t i = 0; i < 1; i++) {
 	
-		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
+        if ((game.puzzle[i] & 0xF0) == Constants::Block_Line) {
+
+    		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,2)));
+
+        }
+        else {
+
+    		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
+
+        }
         
 	}
 
 	for (uint8_t i = 0; i < 21; i++) {
 	
 		game.puzzle_Orig[i] = game.puzzle[i];
+		game.puzzle_Grey[i] = 0;
         
 	}
 
@@ -184,25 +195,7 @@ void play_Update() {
 
                     if (bPressed > 0 && bPressed < 10) {
 
-                        game.captureMove();
-
-                        switch (game.puzzle[game.getCursor()] & 0xF0) {
-                        
-                            case Constants::Block_Line:
-                                game.puzzle[game.getCursor()] = (game.puzzle[game.getCursor()] & 0xF0) + (((game.puzzle[game.getCursor()] & 0x0F) + 3 ) % 2);
-                                break;
-
-                            default:
-                                game.puzzle[game.getCursor()] = (game.puzzle[game.getCursor()] & 0xF0) + (((game.puzzle[game.getCursor()] & 0x0F) + 3 ) % 4);
-                                break;
-                        
-                        }
-                        
-                        checkResult();
-
-                        if (endOfGame != GameOver::No) {
-                            justPressed = 0;
-                        }
+                        game.puzzle_Grey[game.getCursor()] = !game.puzzle_Grey[game.getCursor()];
 
                     }
 

@@ -123,7 +123,7 @@ convert_header(IMAGES + 'Extras/Levels_Status.png',                             
 convert_header(IMAGES + 'Extras/Levels_Number.png',                                 BASE + 'Images.hpp', 'Levels_Number', 4, 11, 8)
 convert_header(IMAGES + 'Extras/Levels_Time.png',                                   BASE + 'Images.hpp', 'Levels_Time', 4)
 convert_header(IMAGES + 'Extras/Levels_Time_Numbers.png',                           BASE + 'Images.hpp', 'Levels_Time_Numbers', 4, 5, 8)
-convert_header(IMAGES + 'Extras/Puff.png',                                          BASE + 'Images.hpp', 'Puff', 4, 32, 32)
+# convert_header(IMAGES + 'Extras/Puff.png',                                          BASE + 'Images.hpp', 'Puff', 4, 32, 32)
 
 convert_header(IMAGES + 'HUD/Mini_HUD.png',                                         BASE + 'Images.hpp', 'Mini_HUD', 4)
 convert_header(IMAGES + 'HUD/Numbers_HUD.png',                                      BASE + 'Images.hpp', 'Numbers_HUD', 4, 8, 8)
@@ -150,8 +150,13 @@ convert_header(IMAGES + 'Cursor_Top.png',                                       
 convert_header(IMAGES + 'Cursor_Left.png',                                          BASE + 'Images.hpp', 'Cursor_Left', 4)
 convert_header(IMAGES + 'Cursor_Right.png',                                         BASE + 'Images.hpp', 'Cursor_Right', 4)
 
-convert_header(IMAGES + 'Background_07.png',                                        BASE + 'Images.hpp', 'Background_07', 4)
+# convert_header(IMAGES + 'Background_07.png',                                        BASE + 'Images.hpp', 'Background_07', 4)
 convert_header(IMAGES + 'Complete.png',                                             BASE + 'Images.hpp', 'Complete', 4)
 convert_header(IMAGES + 'GameOver.png',                                             BASE + 'Images.hpp', 'GameOver', 4)
 
 convert_header(IMAGES + 'Rotate/Rotate.png',                                        BASE + 'Images.hpp', 'Rotate', 4, 57, 64)
+
+convert_header(IMAGES + 'Block_Grey.png',                                           BASE + 'Images.hpp', 'Block_Grey', 4, 23, 32)
+# convert_header(IMAGES + 'Block_Grey_00.png',                                        BASE + 'Images.hpp', 'Block_Grey_00', 4)
+# convert_header(IMAGES + 'Block_Grey_01.png',                                        BASE + 'Images.hpp', 'Block_Grey_01', 4)
+# convert_header(IMAGES + 'Block_Grey_02.png',                                        BASE + 'Images.hpp', 'Block_Grey_02', 4)
