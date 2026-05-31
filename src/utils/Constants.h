@@ -2,64 +2,68 @@
 #include "../../fxdata/fxdata.h"
 #include "../../fxdata/images/Images.h"
 
+#define _DEBUG
 #define _DEBUG_PRINT    Serial.print
 #define _DEBUG_PRINTLN  Serial.println
 #define DEBUG_BREAK    asm volatile("break\n");
 
 namespace Constants {
 
-    constexpr int8_t xPos[] = { -125, -112, -101, -90, -80, -70, -61, -52, -44, -36, -29, -22, -16, -10, -5, 0, 4, 8, 12, 15, 18, 20, 22, 23, 24, 24, 25, 25, 25, };
-
     constexpr uint8_t levelSelect_Offset[] = { 0, 0, 14, 31, 43, 43 };
-
-    constexpr uint8_t XOffset_Pixels = 6;
-    constexpr uint8_t YOffset_Pixels = 6;
-    constexpr uint8_t Undo_Count = 5;
-
-    constexpr uint8_t Map_X_Count = 16;
-    constexpr uint8_t Map_Y_Count = 11;
+    constexpr uint8_t Undo_Count = 8;
     constexpr uint8_t Level_Count = 24;
+        
+    //     1   2
+    //      \ /
+    // 32 -  X - 16
+    //      / \
+    //     8   4
 
-    constexpr uint8_t Tile_Player = 234;
-    constexpr uint8_t Tile_Lava = 250;
-    constexpr uint8_t Tile_Water = 239;
-    constexpr uint8_t Tile_Basalt = 240;
-    constexpr uint8_t Tile_Portal = 241;
-    constexpr uint8_t Tile_Portal_Inactive = 242;
-    constexpr uint8_t Tile_Portal_Key = 243;
-    constexpr uint8_t Tile_Block = 251;
-    constexpr uint8_t Tile_Counter_00 = 100;
-    constexpr uint8_t Tile_Counter_65 = 165;
-    constexpr uint8_t Tile_Border = 255;
-    constexpr uint8_t Tile_Partial_Wall = 252;
-    constexpr uint8_t Tile_Lava_And_Partial_Wall = 253;
-    constexpr uint8_t Tile_Water_And_Partial_Wall = 254;
-    constexpr uint8_t Tile_Waters_Edge = 238;
-    constexpr uint8_t Tile_Green_Switch = 235;
-    constexpr uint8_t Tile_Green_Closed = 236;
-    constexpr uint8_t Tile_Green_Open = 237;
+    //       1
+    //       |
+    //  8 -  x  - 2
+    //       |
+    //       4
 
-    constexpr uint8_t Block_Count = 18;
-    constexpr uint8_t Portal_Key_Count = 6;
-    constexpr uint8_t Green_Door_Count = 4;
+    constexpr uint8_t Direction_Top_UL = 1;
+    constexpr uint8_t Direction_Top_UR = 2;
+    constexpr uint8_t Direction_Top_R = 16;
+    constexpr uint8_t Direction_Top_L = 32;
+    constexpr uint8_t Direction_Top_DL = 8;
+    constexpr uint8_t Direction_Top_DR = 4;
 
-    constexpr uint8_t Image_Portal = 0;
-    constexpr uint8_t Image_Portal_Inactive = 8;
-    constexpr uint8_t Image_Partial_Wall = 9;
-    constexpr uint8_t Image_Lava_And_Partial_Wall = 10;
-    constexpr uint8_t Image_Water_And_Partial_Wall = 16;
-    constexpr uint8_t Image_Block = 15;
-    constexpr uint8_t Image_Player = 14;
-    constexpr uint8_t Image_Player_Dead = 25;
-    constexpr uint8_t Image_Basalt = 20;
-    constexpr uint8_t Image_Waters_Edge = 21;
-    constexpr uint8_t Image_Green_Switch = 22;
-    constexpr uint8_t Image_Green_Closed = 23;
-    constexpr uint8_t Image_Green_Open = 24;
 
-    constexpr uint8_t Temp_Water = 99;
-    constexpr uint8_t Temp_Water_And_Partial_Wall = 98;
-    constexpr uint8_t Temp_Lava = 97;
-    constexpr uint8_t Temp_Lava_And_Partial_Wall = 96;
-    
+    constexpr uint8_t Direction_Side_U = 1;
+    constexpr uint8_t Direction_Side_R = 2;
+    constexpr uint8_t Direction_Side_D = 4;
+    constexpr uint8_t Direction_Side_L = 8;
+
+
+    constexpr uint8_t Valid_Moves[7][3] = { 
+
+        { 4 + 8 + 16, 1 + 2 + 4, 1 + 2 + 4 + 8 },
+        { 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 4 + 8 },
+
+        { 2 + 4 + 8 + 16, 1 + 2, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 8 },
+
+        { 1 + 2 + 4 + 8 + 16, 1 + 2, 1 + 2 + 8 },
+        { 1 + 2 + 4 + 8 + 32, 1 + 2 + 8, 1 + 8}
+
+    };
+
+
+    constexpr uint8_t Block_XPos[] = { 41, 63, 30, 52, 74, 41, 63 };
+    constexpr uint8_t Block_YPos[] = { 1, 1, 19, 19, 19, 37, 37 };
+
+    constexpr uint8_t Cube_Right = 2;
+    constexpr uint8_t Cube_Top = 0;
+    constexpr uint8_t Cube_Left = 1;
+
+    constexpr uint8_t Block_Knob = 0x10;
+    constexpr uint8_t Block_Line = 0x20;
+    constexpr uint8_t Block_Tee = 0x30;
+    constexpr uint8_t Block_Curve = 0x40;
+
 };

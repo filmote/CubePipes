@@ -9,14 +9,14 @@ struct Puzzle {
     private:
 
         PuzzleStatus status = PuzzleStatus::Locked;
-        uint16_t numberOfMoves;
+        uint16_t time;
 
     public:
 
-        uint16_t getNumberOfMoves() const               { return this->numberOfMoves; }
+        uint16_t getTime() const                        { return this->time; }
         PuzzleStatus getStatus() const                  { return this->status; }
 
-        void setNumberOfMoves(uint16_t val)             { this->numberOfMoves = val; }
+        void setTime(uint16_t val)                      { this->time = val; }
         void setStatus(PuzzleStatus val)                { this->status = val; }
 
 };

@@ -6,11 +6,10 @@ enum PuzzleStatus : uint8_t {
     InProgress,
 };
 
-enum class ObjectType : uint8_t { 
-    Player,
-    Lava, 
-    Block,
-    Water, 
+enum class GameOver : uint8_t { 
+    No,
+    LevelOver, 
+    GameOver,
 };
 
 enum class GameState : uint8_t {
@@ -32,8 +31,6 @@ enum class GameState : uint8_t {
     Play_Init,
     Play_Start,
         Play = Play_Start,
-        Play_Dead, 
-        Play_FadeOut,
         Play_FadeIn,
     Play_End,
     

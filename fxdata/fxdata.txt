@@ -7,7 +7,6 @@ namespace Images
 
     include "images/Images.hpp"
 
-
 namespace_end
 
 savesection  // Anything below here will be stored in the save block

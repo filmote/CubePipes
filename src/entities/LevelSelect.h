@@ -37,9 +37,13 @@ struct LevelSelect {
 
             this->x++;
 
-            if (this->x == 5) {
+            if (this->x == 4) {
                 this->x = 0;
                 this->y++;
+            }
+
+            if (this->y == 6) {
+                this->y = 5;
             }
 
         }

@@ -1,364 +1,49 @@
 #include <ArduboyFX.h>  
 #include "fxdata/fxdata.h"
+#include "src/entities/Puzzles.h"
 
-bool debug = false;
-
-
-
-uint8_t puzzle_Orig[21] = { 0x11, 0x12, 0x20,    0x12, 0x31, 0x42,
-0x40, 0x11, 0x30,   0x30, 0x32, 0x33,      0x42, 0x40, 0x13,
-0x40, 0x11, 0x43,   0x32, 0x10, 0x10
- };
-
-// uint8_t puzzle[21] = { 0x11, 0x12, 0x20,    0x12, 0x31, 0x42,
-// 0x40, 0x11, 0x30,   0x30, 0x32, 0x33,      0x42, 0x40, 0x13,
-// 0x40, 0x11, 0x43,   0x32, 0x10, 0x10
-//  };
-
-
-
-uint8_t puzzles[2][21] = {
-
-//1
-{ 0x11, 0x41, 0x30,    0x11, 0x21, 0x33,
-0x40, 0x11, 0x33,   0x11, 0x12, 0x20,      0x13, 0x41, 0x13,
-0x33, 0x40, 0x23,   0x33, 0x30, 0x13
- },
-
-//2
-{ 0x12, 0x31, 0x32,    0x12, 0x30, 0x13,
-0x31, 0x10, 0x31,   0x13, 0x13, 0x12,      0x12, 0x31, 0x13,
-0x32, 0x10, 0x40,   0x33, 0x30, 0x13
- },
-
-// //3
-// { 0x12, 0x31, 0x42,    0x12, 0x31, 0x42,
-// 0x31, 0x10, 0x40,   0x30, 0x42, 0x40,      0x21, 0x13, 0x10,
-// 0x31, 0x10, 0x40,   0x41, 0x43, 0x10
-//  },
-
-// //4
-// { 0x12, 0x31, 0x32,    0x12, 0x30, 0x42,
-// 0x10, 0x11, 0x32,   0x42, 0x30, 0x42,      0x42, 0x40, 0x13,
-// 0x13, 0x11, 0x21,   0x32, 0x43, 0x10
-//  },
-
-// //5
-// { 0x11, 0x41, 0x30,    0x41, 0x43, 0x10,
-// 0x31, 0x10, 0x31,   0x11, 0x21, 0x30,      0x41, 0x43, 0x10,
-// 0x32, 0x10, 0x40,   0x41, 0x43, 0x10
-//  },
-
-// // 6
-// { 0x12, 0x40, 0x42,    0x12, 0x31, 0x13,
-// 0x11, 0x11, 0x30,   0x30, 0x32, 0x33,      0x12, 0x31, 0x13,
-// 0x40, 0x11, 0x43,   0x30, 0x11, 0x43
-//  },
-
-// // 7
-// { 0x41, 0x20, 0x31,    0x12, 0x30, 0x42,
-// 0x10, 0x11, 0x32,   0x42, 0x30, 0x21,      0x13, 0x21, 0x13,
-// 0x42, 0x40, 0x21,   0x41, 0x43, 0x10
-//  },
-
-// //8
-// { 0x41, 0x10, 0x31,    0x41, 0x43, 0x10,
-// 0x11, 0x11, 0x30,   0x32, 0x43, 0x31,      0x41, 0x43, 0x10,
-// 0x41, 0x10, 0x40,   0x42, 0x30, 0x13
-//  },
-
-// //9
-// { 0x41, 0x20, 0x40,    0x11, 0x32, 0x43,
-// 0x40, 0x11, 0x30,   0x40, 0x42, 0x10,      0x41, 0x20, 0x10,
-// 0x40, 0x11, 0x30,   0x20, 0x30, 0x13
-//  },
-
-// // 10
-// { 0x12, 0x31, 0x42,    0x12, 0x31, 0x13,
-// 0x40, 0x11, 0x30,   0x30, 0x42, 0x31,      0x41, 0x43, 0x10,
-// 0x20, 0x10, 0x11,   0x32, 0x43, 0x10
-//  },
-
-// // 11
-// { 0x41, 0x10, 0x20,    0x12, 0x20, 0x12,
-// 0x12, 0x40, 0x42,   0x33, 0x40, 0x42,      0x42, 0x31, 0x13,
-// 0x42, 0x40, 0x21,   0x30, 0x21, 0x43
-//  },
-
-// //12
-// { 0x11, 0x41, 0x33,    0x12, 0x31, 0x13,
-// 0x40, 0x11, 0x33,   0x43, 0x41, 0x21,      0x12, 0x30, 0x13,
-// 0x30, 0x11, 0x30,   0x12, 0x30, 0x13
-//  },
-
-
-// //13
-// { 0x11, 0x11, 0x30,    0x12, 0x30, 0x42,
-// 0x41, 0x10, 0x31,   0x12, 0x30, 0x42,      0x42, 0x31, 0x13,
-// 0x21, 0x11, 0x30,   0x30, 0x13, 0x10
-//  },
-
-// //14
-// { 0x11, 0x41, 0x30,    0x11, 0x32, 0x43,
-// 0x20, 0x10, 0x11,   0x31, 0x33, 0x31,      0x12, 0x30, 0x13,
-// 0x31, 0x10, 0x40,   0x21, 0x13, 0x10
-//  },
-
-// //15
-// { 0x12, 0x31, 0x42,    0x11, 0x41, 0x33,
-// 0x10, 0x11, 0x42,   0x33, 0x31, 0x42,      0x32, 0x10, 0x10,
-// 0x33, 0x10, 0x11,   0x32, 0x43, 0x10
-//  },
-
-// //16
-// { 0x11, 0x41, 0x43,    0x12, 0x20, 0x12,
-// 0x40, 0x11, 0x30,   0x20, 0x33, 0x12,      0x42, 0x31, 0x13,
-// 0x31, 0x10, 0x40,   0x33, 0x30, 0x13
-//  },
-
-
-// //17
-// { 0x41, 0x20, 0x20,    0x11, 0x41, 0x33,
-// 0x31, 0x10, 0x40,   0x30, 0x42, 0x40,      0x21, 0x42, 0x10,
-// 0x40, 0x11, 0x43,   0x40, 0x11, 0x43
-//  },
-
-
-// //18
-// { 0x12, 0x31, 0x21,    0x11, 0x32, 0x43,
-// 0x31, 0x10, 0x40,   0x10, 0x32, 0x42,      0x11, 0x41, 0x43,
-// 0x31, 0x10, 0x10,   0x33, 0x40, 0x13
-//  },
-
-
-// //19
-// { 0x11, 0x41, 0x30,    0x11, 0x32, 0x43,
-// 0x10, 0x11, 0x32,   0x31, 0x43, 0x31,      0x41, 0x43, 0x10,
-// 0x32, 0x10, 0x10,   0x42, 0x40, 0x13
-//  },
-
-
-// //20
-// { 0x11, 0x41, 0x30,    0x12, 0x43, 0x12,
-// 0x40, 0x11, 0x33,   0x41, 0x20, 0x31,      0x21, 0x21, 0x43,
-// 0x33, 0x40, 0x13,   0x32, 0x10, 0x10
-//  },
-
-};
-
-
-uint8_t puzzleIDX = 0;
-
-// constexpr uint8_t BLOCK_KNOB = 0x10;
-// constexpr uint8_t BLOCK_LINE = 0x20;
-// constexpr uint8_t BLOCK_TEE = 0x30;
-// constexpr uint8_t BLOCK_CURVE = 0x40;
-
-
-
-// uint8_t puzzle[21] = { 0x11, 0x12, 0x20,    0x12, 0x31, 0x42,
-// 0x40, 0x11, 0x30,   0x30, 0x32, 0x33,      0x42, 0x40, 0x13,
-// 0x40, 0x11, 0x43,   0x32, 0x10, 0x10
-//  };
-//     1   2
-//      \ /
-// 32 -  X - 16
-//      / \
-//     8   4
-
-//       1
-//       |
-//  8 -  x  - 2
-//       |
-//       4
-
-uint8_t valid_moves[7][3] = { 
-
-{ 4 + 8 + 16, 1 + 2 + 4, 1 + 2 + 4 + 8 },
-{ 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 4 + 8 },
-
-{ 2 + 4 + 8 + 16, 1 + 2, 1 + 2 + 4 + 8 },
-{ 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
-{ 1 + 2 + 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 8 },
-
-{ 1 + 2 + 4 + 8 + 16, 1 + 2, 1 + 2 + 8 },
-{ 1 + 2 + 4 + 8 + 32, 1 + 2 + 8, 1 + 8}
-
-};
-
-uint8_t cursor_P = 0;
-
-constexpr uint8_t CUBE_RIGHT = 2;
-constexpr uint8_t CUBE_TOP = 0;
-constexpr uint8_t CUBE_LEFT = 1;
-
-constexpr uint8_t BLOCK_KNOB = 0x10;
-constexpr uint8_t BLOCK_LINE = 0x20;
-constexpr uint8_t BLOCK_TEE = 0x30;
-constexpr uint8_t BLOCK_CURVE = 0x40;
-
-const uint8_t xPos[] = { 41, 63, 30, 52, 74, 41, 63 };
-const uint8_t yPos[] = { 1, 1, 19, 19, 19, 37, 37 };
-
-bool endOfGame = false;
-
-
-
-// ─── Full scene render (called each plane) ────────────────────────────────────
-void drawScene(uint8_t currentPlane) {
-
-
-  if (currentPlane == 0) {
-  SpritesU::drawOverwriteFX(0, 0, Images::Background_07, currentPlane);
-  }
-
-  if (game.getFrameCount() % 120 < 60) {
-
-    uint8_t x = xPos[cursor_P / 3];
-    uint8_t y = yPos[cursor_P / 3];
-
-// Serial.print(x);
-// Serial.print(" ");
-// Serial.print(y);
-// Serial.print(" ");
-// Serial.println(cursor_P % 3);
-
-    switch (cursor_P % 3) {
-
-      case 0:
-        SpritesU::drawPlusMaskFX(x, y, Images::Cursor_Top, currentPlane);
-        break;
-
-      case 1:
-        SpritesU::drawPlusMaskFX(x, y + 6, Images::Cursor_Left, currentPlane);
-        break;
-
-      case 2:
-        SpritesU::drawPlusMaskFX(x + 11, y + 6, Images::Cursor_Right, currentPlane);
-        break;
-    
-    }
-
-  // Serial.println(frameCount);
-  //  SpritesU::drawPlusMaskFX(30, 7, Images::Cursor_Left, currentPlane);
- 
-  }
-
-  for (uint8_t i = 0; i < 21; i++) {
-
-    uint8_t block = puzzles[puzzleIDX][i] & 0xF0;
-    uint8_t rotation = puzzles[puzzleIDX][i] & 0x0F;
-
-	uint8_t x = xPos[i / 3];
-	uint8_t y = yPos[i / 3];
-
-	drawBlock(x, y, i % 3, block, rotation, currentPlane);
-   
-
-
-  }
-
-	if (endOfGame) {
-		SpritesU::drawPlusMaskFX(5, 22, Images::Complete, currentPlane);
-	}
-
-}
-
-void drawBlock(uint8_t x, uint8_t y, uint8_t face, uint8_t block, uint8_t rotation, uint8_t currentPlane) {
-    
-
-	switch (face) {
-
-		case 0:
-
-			switch (block) {
-			
-			case BLOCK_KNOB:
-				SpritesU::drawPlusMaskFX(x, y, Images::Block_Top_01, (3 * rotation) + currentPlane);
-				break;
-
-			case BLOCK_LINE:
-				SpritesU::drawPlusMaskFX(x, y, Images::Block_Top_02, (3 * rotation) + currentPlane);
-				break;
-
-			case BLOCK_TEE:
-				SpritesU::drawPlusMaskFX(x, y, Images::Block_Top_03, (3 * rotation) + currentPlane);
-				break;
-
-			case BLOCK_CURVE:
-				SpritesU::drawPlusMaskFX(x, y, Images::Block_Top_04, (3 * rotation) + currentPlane);
-				break;
-
-			}
-
-			break;
-
-		case 1:
-			
-			switch (block) {
-			
-				case BLOCK_KNOB:
-				SpritesU::drawPlusMaskFX(x, y + 7, Images::Block_Left_01, (3 * rotation) + currentPlane);
-				break;
-
-				case BLOCK_LINE:
-				SpritesU::drawPlusMaskFX(x, y + 7, Images::Block_Left_02, (3 * rotation) + currentPlane);
-				break;
-
-				case BLOCK_TEE:
-				SpritesU::drawPlusMaskFX(x, y + 7, Images::Block_Left_03, (3 * rotation) + currentPlane);
-				break;
-
-				case BLOCK_CURVE:
-				SpritesU::drawPlusMaskFX(x, y + 7, Images::Block_Left_04, (3 * rotation) + currentPlane);
-				break;
-
-			}
-
-			break;
-
-		case 2:
-			
-			switch (block) {
-			
-				case BLOCK_KNOB:
-				SpritesU::drawPlusMaskFX(x + 11, y + 7, Images::Block_Right_01, (3 * rotation) + currentPlane);
-				break;
-
-				case BLOCK_LINE:
-				SpritesU::drawPlusMaskFX(x + 11, y + 7, Images::Block_Right_02, (3 * rotation) + currentPlane);
-				break;
-
-				case BLOCK_TEE:
-				SpritesU::drawPlusMaskFX(x + 11, y + 7, Images::Block_Right_03, (3 * rotation) + currentPlane);
-				break;
-
-				case BLOCK_CURVE:
-				SpritesU::drawPlusMaskFX(x + 11, y + 7, Images::Block_Right_04, (3 * rotation) + currentPlane);
-				break;
-
-			}
-
-			break;
-
-	}
-
-}
+GameOver endOfGame = GameOver::No;
+uint16_t bPressed = 0;
 
 void checkResult() {
 
+    uint8_t completed = 0;
+
 	for (uint8_t i = 0; i < 21; i++) {
 	
-		if (puzzles[puzzleIDX][i] != puzzle_Orig[i]) {
+        uint8_t v = pgm_read_byte(&puzzles[game.getLevel()][i]);
+
+		if (game.puzzle[i] != v) {
 		
-			endOfGame = false;
+			endOfGame = GameOver::No;
 			return;
 
 		}
 
 	}
 
-	endOfGame = true;
+
+    // Complete ?
+
+    game.getPuzzle(game.getLevel()).setStatus(PuzzleStatus::Complete);
+    game.getPuzzle(game.getLevel()).setTime(game.getTime());
+
+    for (uint8_t i = 0; i < Constants::Level_Count; i++) {
+
+        if (game.getPuzzle(i).getStatus() == PuzzleStatus::Complete) {
+            completed++;
+        }
+
+    }
+
+    if (completed == 24) {
+
+    	endOfGame = GameOver::GameOver;
+        return;
+
+    }
+
+    endOfGame = GameOver::LevelOver;
 
 }
 
@@ -368,7 +53,25 @@ void play_Init() {
     popoutMenu.setX(128);
     popoutMenu.setDirection(Direction::None);
 
-    gameState = nextGameState; //GameState::Play;
+    gameState = GameState::Play;
+    game.setTime(0);
+    endOfGame = GameOver::No;
+
+    memcpy_P(game.puzzle, puzzles[game.getLevel()], 21);
+    memcpy_P(game.puzzle_Orig, puzzles[game.getLevel()], 21);
+    game.setCursor(0);
+
+	for (uint8_t i = 0; i < 21; i++) {
+	
+		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
+        
+	}
+
+	for (uint8_t i = 0; i < 21; i++) {
+	
+		game.puzzle_Orig[i] = game.puzzle[i];
+        
+	}
 
 }
 
@@ -392,8 +95,6 @@ void handleMenu(uint8_t justPressed) {
 
     else if (justPressed & A_BUTTON) {
 
-        puff.setCounter(0);
-
         switch (popoutMenu.getSelect()) {
         
             case 0:
@@ -406,8 +107,10 @@ void handleMenu(uint8_t justPressed) {
         
             case 1:
                 popoutMenu.setAllowClose(true);
-                gameState = GameState::Play_Init;
-                nextGameState = GameState::Play;
+                game.setCursor(0);
+                memcpy(game.puzzle, game.puzzle_Orig, 21);
+                popoutMenu.setDirection(Direction::Right);
+                
                 break;
         
             case 2:
@@ -419,12 +122,15 @@ void handleMenu(uint8_t justPressed) {
 
     }
 
+    else if (justPressed & B_BUTTON) {
+
+        popoutMenu.setAllowClose(true);
+        popoutMenu.setDirection(Direction::Right);
+
+    }
+
 }
 
-
-// ----------------------------------------------------------------------------
-//  Handle state updates .. 
-//
 
 void play_Update() { 
 
@@ -433,235 +139,310 @@ void play_Update() {
 
     game.incFrameCount();
 
+
     if (gameState == GameState::Play) {
-Serial.println("GameState::Play");
+
         if (popoutMenu.getX() == 128) {
-Serial.println("popoutMenu.getX() == 128");
 
+            if (endOfGame == GameOver::No) {
 
-            if (a.justPressed(A_BUTTON)) {
+                if (game.getFrameCount() % 52 == 0) {
+                    game.incTime();
+                }
 
-            puzzles[puzzleIDX][cursor_P] = (puzzles[puzzleIDX][cursor_P] & 0xF0) + (((puzzles[puzzleIDX][cursor_P] & 0x0F) + 1 ) % 4);
+                if (justPressed & A_BUTTON) {
 
-                checkResult();
+                    game.captureMove();
 
-            }
-
-
-            if (a.justPressed(B_BUTTON)) {
-
-                puzzles[puzzleIDX][cursor_P] = (puzzles[puzzleIDX][cursor_P] & 0xF0) + (((puzzles[puzzleIDX][cursor_P] & 0x0F) + 3 ) % 4);
-                checkResult();
-
-            }
+                    switch (game.puzzle[game.getCursor()] & 0xF0) {
                     
+                        case Constants::Block_Line:
+                            game.puzzle[game.getCursor()] = (game.puzzle[game.getCursor()] & 0xF0) + (((game.puzzle[game.getCursor()] & 0x0F) + 1 ) % 2);
+                            break;
 
-            uint8_t moves[3];
-            uint8_t cursor_P3 = cursor_P % 3;
+                        default:
+                            game.puzzle[game.getCursor()] = (game.puzzle[game.getCursor()] & 0xF0) + (((game.puzzle[game.getCursor()] & 0x0F) + 1 ) % 4);
+                            break;
+                    
+                    }
 
-            moves[0] = valid_moves[cursor_P / 3][0];
-            moves[1] = valid_moves[cursor_P / 3][1];
-            moves[2] = valid_moves[cursor_P / 3][2];
+                    checkResult();
 
+                    if (endOfGame != GameOver::No) {
+                        justPressed = 0;
+                    }
 
-            if (a.justPressed(UP_BUTTON)) {
+                }
 
-        Serial.print("Up ");
-        Serial.print(moves[0]);
-        Serial.print(" ");
-        Serial.print(moves[1]);
-        Serial.print(" ");
-        Serial.println(moves[2]);
-            
-                if (cursor_P3 == 0 && (moves[0] & 1 || moves[0] & 2)) {
+                if (pressed & B_BUTTON) {
                 
-                    if (a.pressed(LEFT_BUTTON) && moves[0] & 1) {
+                    bPressed++;
 
-                        cursor_P = cursor_P - 7;
-                        Serial.println("Up T1");
+                }
 
-                    }
-                    else if (a.pressed(RIGHT_BUTTON) && moves[0] & 2) {
+                if (a.notPressed(B_BUTTON)) {
 
-                        cursor_P = cursor_P - 4;
-                        Serial.println("Up T2");
+                    if (bPressed > 0 && bPressed < 10) {
 
-                    }
-                    else {
+                        game.captureMove();
 
-                        cursor_P = cursor_P - 7;
-                        Serial.println("Up T3");
+                        switch (game.puzzle[game.getCursor()] & 0xF0) {
+                        
+                            case Constants::Block_Line:
+                                game.puzzle[game.getCursor()] = (game.puzzle[game.getCursor()] & 0xF0) + (((game.puzzle[game.getCursor()] & 0x0F) + 3 ) % 2);
+                                break;
+
+                            default:
+                                game.puzzle[game.getCursor()] = (game.puzzle[game.getCursor()] & 0xF0) + (((game.puzzle[game.getCursor()] & 0x0F) + 3 ) % 4);
+                                break;
+                        
+                        }
+                        
+                        checkResult();
+
+                        if (endOfGame != GameOver::No) {
+                            justPressed = 0;
+                        }
 
                     }
 
                 }
+                        
 
-                else if (cursor_P3 == 1 && moves[1] & 1) {
+                uint8_t cursorMod3 = game.getCursor() % 3;
 
-                    cursor_P = cursor_P - 1;			
-                    Serial.println("Up L");
+                uint8_t moves_Top = Constants::Valid_Moves[game.getCursor() / 3][Constants::Cube_Top];
+                uint8_t moves_Left = Constants::Valid_Moves[game.getCursor() / 3][Constants::Cube_Left];
+                uint8_t moves_Right = Constants::Valid_Moves[game.getCursor() / 3][Constants::Cube_Right];
 
-                }
+
+                if (a.justPressed(UP_BUTTON)) {
                 
-                else if (cursor_P3 == 2 && moves[2] & 1) {
+                    if (cursorMod3 == Constants::Cube_Top && (moves_Top & Constants::Direction_Top_UL || moves_Top & Constants::Direction_Top_UR)) {
+                    
+                        if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_UL) {
 
-                    cursor_P = cursor_P - 2;			
-                    Serial.println("Up R");
+                            game.incCursor(-7);
+                            // Serial.println("Up T1");
+
+                        }
+                        else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_UR) {
+
+                            switch (game.getCursor()) {
+                            
+                                case 6:
+                                case 9:
+                                case 12:
+                                    game.incCursor(-5);
+                                    break;
+
+                                case 15:
+                                case 18:
+                                    game.incCursor(-8);
+                                    break;
+
+                            }
+
+                            // Serial.println("Up T2");
+
+                        }
+                        else {
+
+                            switch (game.getCursor()) {
+                            
+                                case 6:
+                                    // Serial.println("Up T3_1");
+                                    game.incCursor(-5);
+                                    break;
+
+                                case 9:
+                                case 12:
+                                    // Serial.println("Up T3_1");
+                                    game.incCursor(-7);
+                                    break;
+
+                                case 15:
+                                case 18:
+                                    // Serial.println("Up T3_2");
+                                    game.incCursor(-7);
+                                    break;
+
+                            }
+
+
+                        }
+
+                    }
+
+                    else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_U) {
+
+                        game.incCursor(-1);
+                        // Serial.println("Up L");
+
+                    }
+                    
+                    else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_U) {
+
+                        game.incCursor(-2);
+                        // Serial.println("Up R");
+
+                    }
 
                 }
 
-            }
+                else if (a.justPressed(DOWN_BUTTON)) {
 
-            else if (a.justPressed(DOWN_BUTTON)) {
-
-        Serial.print("Down ");
-        Serial.print(moves[0]);
-        Serial.print(" ");
-        Serial.print(moves[1]);
-        Serial.print(" ");
-        Serial.println(moves[2]);
-            
-                if (cursor_P3 == 0 && (moves[0] & 8 || moves[0] & 4)) {
+            // Serial.print("Down ");
+            // Serial.print(moves_Top);
+            // Serial.print(" ");
+            // Serial.print(moves_Left);
+            // Serial.print(" ");
+            // Serial.println(moves_Right);
                 
-                    if (a.pressed(LEFT_BUTTON) && moves[0] & 8) {
+                    if (cursorMod3 == Constants::Cube_Top && (moves_Top & Constants::Direction_Top_DL || moves_Top & Constants::Direction_Top_DR)) {
+                    
+                        if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_DL) {
 
-                        cursor_P = cursor_P + 1;
-                        Serial.println("Down T1");
+                            game.incCursor(1);
+                            // Serial.println("Down T1");
+
+                        }
+                        else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_DR) {
+
+                            game.incCursor(2);
+                            // Serial.println("Down T2");
+
+                        }
+                        else {
+
+                            game.incCursor(1);
+                            // Serial.println("Down T3");
+
+                        }
 
                     }
-                    else if (a.pressed(RIGHT_BUTTON) && moves[0] & 4) {
 
-                        cursor_P = cursor_P + 2;
-                        Serial.println("Down T2");
+                    else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_D) {
 
-                    }
-                    else {
-
-                        cursor_P = cursor_P + 1;
-                        Serial.println("Down T3");
+                        game.incCursor(5);
+                        // Serial.println("Down L");
 
                     }
+                    
+                    else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_D) {
+
+                        game.incCursor(7);
+                        // Serial.println("Down R");
+
+                    }
 
                 }
 
-                else if (cursor_P3 == 1 && moves[1] & 4) {
 
-                    cursor_P = cursor_P + 5;			
-                    Serial.println("Down L");
+                else if (a.justPressed(RIGHT_BUTTON)) {
 
-                }
-                
-                else if (cursor_P3 == 2 && moves[2] & 4) {
+            // Serial.print("Right ");
+            // Serial.print(moves_Top);
+            // Serial.print(" ");
+            // Serial.print(moves_Left);
+            // Serial.print(" ");
+            // Serial.println(moves_Right);
 
-                    cursor_P = cursor_P + 4 + 3;			
-                    Serial.println("Down R");
+                    if (cursorMod3 == Constants::Cube_Top && moves_Top & Constants::Direction_Top_R) {
 
-                }
+                        game.incCursor(3);
 
-            }
+                    }
+                    else if (cursorMod3 == Constants::Cube_Left) {
 
+                        game.incCursor(1);
 
+                    }
+                    else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_R) {
 
+                        game.incCursor(2);
 
-
-            else if (a.justPressed(RIGHT_BUTTON)) {
-
-        Serial.print("Right ");
-        Serial.print(moves[0]);
-        Serial.print(" ");
-        Serial.print(moves[1]);
-        Serial.print(" ");
-        Serial.println(moves[2]);
-
-                if (cursor_P3 == 0 && moves[0] & 16) {
-
-                    cursor_P = cursor_P + 3;
-
-                }
-                else if (cursor_P3 == 1) {
-
-                    cursor_P++;
-
-                }
-                else if (cursor_P3 == 2 && moves[2] & 2) {
-
-                    cursor_P = cursor_P + 2;
+                    }
 
                 }
 
-            }
 
+                else if (a.justPressed(LEFT_BUTTON)) {
 
-            else if (a.justPressed(LEFT_BUTTON)) {
+            // Serial.print("Left ");
+            // Serial.print(moves_Top);
+            // Serial.print(" ");
+            // Serial.print(moves_Left);
+            // Serial.print(" ");
+            // Serial.println(moves_Right);
 
-        Serial.print("Left ");
-        Serial.print(moves[0]);
-        Serial.print(" ");
-        Serial.print(moves[1]);
-        Serial.print(" ");
-        Serial.println(moves[2]);
+                    if (cursorMod3 == Constants::Cube_Top && moves_Top & Constants::Direction_Top_L) {
 
-                if (cursor_P3 == 0 && moves[0] & 32) {
+                        game.incCursor(-3);
 
-                    cursor_P = cursor_P - 3;
+                    }
+                    else if (cursorMod3 == Constants::Cube_Right) {
+
+                        game.incCursor(-1);
+
+                    }
+                    else if (cursorMod3 == Constants::Cube_Left && moves_Right & Constants::Direction_Side_L) {
+
+                        game.incCursor(-2);
+
+                    }
 
                 }
-                else if (cursor_P3 == 2) {
-
-                    cursor_P--;
-
-                }
-                else if (cursor_P3 == 1 && moves[2] & 8) {
-
-                    cursor_P = cursor_P - 2;
-
-                }
-
             }
 
             // Have we won?
 
-            if (false) {
+            else {
 
-                titleCounter = 0;
-            
-                game.getPuzzle(game.getLevel()).setStatus(PuzzleStatus::Complete);
-                game.getPuzzle(game.getLevel()).setNumberOfMoves(game.getMoveCount());
+                if (justPressed & A_BUTTON) {
+
+                    titleCounter = 0;
+                    endOfGame = GameOver::No;
                 
-                uint8_t completed = 0;
+                    game.getPuzzle(game.getLevel()).setStatus(PuzzleStatus::Complete);
+                    game.getPuzzle(game.getLevel()).setTime(game.getTime());
+                    
+                    uint8_t completed = 0;
 
-                for (uint8_t i = 0; i < Constants::Level_Count; i++) {
+                    for (uint8_t i = 0; i < Constants::Level_Count; i++) {
 
-                    if (game.getPuzzle(i).getStatus() == PuzzleStatus::Complete) {
-                        completed++;
+                        if (game.getPuzzle(i).getStatus() == PuzzleStatus::Complete) {
+                            completed++;
+                        }
+
                     }
 
-                }
+                    if (completed == 24) {
 
-                if (completed == 24) {
-
-                    gameState = GameState::Play_FadeOut;
-                    nextGameState = GameState::GameOver_Init;
-
-                }
-                else {
-
-                    if (game.getLevel() < Constants::Level_Count - 1 && game.getPuzzle(game.getLevel() + 1).getStatus() != PuzzleStatus::Complete) {
-
-                        gameState = GameState::Play_FadeOut;
-                        nextGameState = GameState::Play_FadeIn;
+                        gameState = GameState::Title_Init;
 
                     }
                     else {
 
-                        gameState = GameState::Play_FadeOut;
-                        nextGameState = GameState::Title_Select;
+                        if (game.getLevel() < Constants::Level_Count - 1 && game.getPuzzle(game.getLevel() + 1).getStatus() != PuzzleStatus::Complete) {
+
+                            gameState = GameState::Play_Init;
+                            game.getPuzzle(game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
+                            game.setLevel(game.getLevel() + 1);
+                            levelSelect.increaseGame();
+
+                        }
+                        else {
+
+                            gameState = GameState::Title_Select;
+
+                        }
 
                     }
 
-                }
+                    saveCookie();
 
-                saveCookie();
+                }
 
             }
 
@@ -676,8 +457,8 @@ Serial.println("popoutMenu.getX() == 128");
 
             
         // Open menu ..
-Serial.println(justPressed);
-        if (justPressed & B_BUTTON) {
+
+        if (a.notPressed(B_BUTTON) & bPressed > 10) {
                     
             if (popoutMenu.getX() == 128) {
                 popoutMenu.setDirection(Direction::Left);
@@ -713,36 +494,23 @@ Serial.println(justPressed);
             
         }
 
-
-        if (puff.getCounter() > 0 && game.getFrameCount() % 4 == 0) {
-
-            if (puff.getCounter() <10) {
-
-                puff.setCounter(puff.getCounter() + 1);
-            
-            }
-
-            switch (puff.getCounter()) {
-            
-                case 4:
-                    
-                    break;
-
-                case 9:
-
-                    popoutMenu.setDirection(Direction::Left);
-                    popoutMenu.setAllowClose(false);
-                    break;
-
-            }
-
-        }
-
     }
     else {
-    
+
+        titleCounter++;
+
         gameState = GameState::Play_Init;
+        game.getPuzzle(game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
+        game.setLevel(game.getLevel() + 1);
+        levelSelect.increaseGame();
     
+    }
+
+
+    if (a.notPressed(B_BUTTON)) {
+
+        bPressed = 0;
+
     }
 
 }
@@ -756,12 +524,12 @@ void play(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 
     // Draw Mini Hud ..
 
+    drawGame(a.currentPlane());
+
     SpritesU::drawOverwriteFX(120, 0, Images::Mini_HUD, currentPlane);
     SpritesU::drawOverwriteFX(121, 17, Images::Numbers_HUD, ((game.getLevel() + 1) * 3) + currentPlane);
-    SpritesU::drawOverwriteFX(121, 50, Images::Numbers_HUD, ((game.getMoveCount() / 10) * 3) + currentPlane);
-    SpritesU::drawOverwriteFX(121, 54, Images::Numbers_HUD, ((game.getMoveCount() % 100) * 3) + currentPlane);
-
-drawScene(a.currentPlane());
+    SpritesU::drawOverwriteFX(121, 46, Images::Numbers_HUD, ((game.getTime() / 100) * 3) + currentPlane);
+    SpritesU::drawOverwriteFX(121, 54, Images::Numbers_HUD, ((game.getTime() % 100) * 3) + currentPlane);
 
 
     if (popoutMenu.getX() < 128) {
@@ -769,33 +537,12 @@ drawScene(a.currentPlane());
     }
 
 
-    // Fade Out
+	if (endOfGame == GameOver::LevelOver) {
+		SpritesU::drawPlusMaskFX(5, 22, Images::Complete, currentPlane);
+	}
 
-    if (gameState == GameState::Play_FadeOut) {
-
-        // if (titleCounter < 42) {
-        //     SpritesU::drawPlusMaskFX(0, -64 + (titleCounter - 10) * 2, Images::Title_Top, currentPlane);
-        //     SpritesU::drawPlusMaskFX(0, 71 - (titleCounter - 10) * 2, Images::Title_Bottom, currentPlane);
-        // }
-        // else {
-        //     SpritesU::drawPlusMaskFX(0, -64 + 64, Images::Title_Top, currentPlane);
-        //     SpritesU::drawPlusMaskFX(0, 71 - 64, Images::Title_Bottom, currentPlane);
-
-        // }
-
-    }
-
-    // Fade In
-
-    else if (gameState == GameState::Play_FadeIn) {
-
-        // if (titleCounter < 42) {
-
-        //     SpritesU::drawPlusMaskFX(0, - 20 - (titleCounter - 10) * 2, Images::Title_Top, currentPlane);
-        //     SpritesU::drawPlusMaskFX(0, 32 + (titleCounter - 10) * 2, Images::Title_Bottom, currentPlane);
-
-        // }
-
-    }
+	if (endOfGame == GameOver::GameOver) {
+		SpritesU::drawPlusMaskFX(0, 22, Images::GameOver, currentPlane);
+	}
 
 }

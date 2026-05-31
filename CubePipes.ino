@@ -11,7 +11,6 @@
 #include "src/entities/Game.h"
 #include "fxdata/fxdata.h"
 #include "fxdata/images/Images.h"
-#include "src/utils/Random.h"
 #include "src/entities/Cookie.h"
 #include "src/entities/Puff.h"
 #include "src/entities/LevelSelect.h"
@@ -34,7 +33,6 @@ decltype(a) a;
 Cookie cookie;
 Game &game = cookie.game;
 GameState gameState = GameState::SplashScreen_Start;
-GameState nextGameState = GameState::SplashScreen_Start;
 
 uint8_t titleCounter = 0;
 LevelSelect levelSelect;
