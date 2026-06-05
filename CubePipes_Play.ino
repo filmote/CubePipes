@@ -216,6 +216,7 @@ void play_Update() {
                         if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_UL) {
 
                             game.incCursor(-7);
+                            game.setFrameCount(0);
                             // Serial.println("Up T1");
 
                         }
@@ -227,11 +228,13 @@ void play_Update() {
                                 case 9:
                                 case 12:
                                     game.incCursor(-5);
+                                    game.setFrameCount(0);
                                     break;
 
                                 case 15:
                                 case 18:
                                     game.incCursor(-8);
+                                    game.setFrameCount(0);
                                     break;
 
                             }
@@ -246,18 +249,21 @@ void play_Update() {
                                 case 6:
                                     // Serial.println("Up T3_1");
                                     game.incCursor(-5);
+                                    game.setFrameCount(0);
                                     break;
 
                                 case 9:
                                 case 12:
                                     // Serial.println("Up T3_1");
                                     game.incCursor(-7);
+                                    game.setFrameCount(0);
                                     break;
 
                                 case 15:
                                 case 18:
                                     // Serial.println("Up T3_2");
                                     game.incCursor(-7);
+                                    game.setFrameCount(0);
                                     break;
 
                             }
@@ -270,6 +276,7 @@ void play_Update() {
                     else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_U) {
 
                         game.incCursor(-1);
+                        game.setFrameCount(0);
                         // Serial.println("Up L");
 
                     }
@@ -277,6 +284,7 @@ void play_Update() {
                     else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_U) {
 
                         game.incCursor(-2);
+                        game.setFrameCount(0);
                         // Serial.println("Up R");
 
                     }
@@ -297,18 +305,21 @@ void play_Update() {
                         if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_DL) {
 
                             game.incCursor(1);
+                            game.setFrameCount(0);
                             // Serial.println("Down T1");
 
                         }
                         else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_DR) {
 
                             game.incCursor(2);
+                            game.setFrameCount(0);
                             // Serial.println("Down T2");
 
                         }
                         else {
 
                             game.incCursor(1);
+                            game.setFrameCount(0);
                             // Serial.println("Down T3");
 
                         }
@@ -318,6 +329,7 @@ void play_Update() {
                     else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_D) {
 
                         game.incCursor(5);
+                        game.setFrameCount(0);
                         // Serial.println("Down L");
 
                     }
@@ -325,6 +337,7 @@ void play_Update() {
                     else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_D) {
 
                         game.incCursor(7);
+                        game.setFrameCount(0);
                         // Serial.println("Down R");
 
                     }
@@ -344,16 +357,19 @@ void play_Update() {
                     if (cursorMod3 == Constants::Cube_Top && moves_Top & Constants::Direction_Top_R) {
 
                         game.incCursor(3);
+                        game.setFrameCount(0);
 
                     }
                     else if (cursorMod3 == Constants::Cube_Left) {
 
                         game.incCursor(1);
+                        game.setFrameCount(0);
 
                     }
                     else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_R) {
 
                         game.incCursor(2);
+                        game.setFrameCount(0);
 
                     }
 
@@ -372,16 +388,19 @@ void play_Update() {
                     if (cursorMod3 == Constants::Cube_Top && moves_Top & Constants::Direction_Top_L) {
 
                         game.incCursor(-3);
+                        game.setFrameCount(0);
 
                     }
                     else if (cursorMod3 == Constants::Cube_Right) {
 
                         game.incCursor(-1);
+                        game.setFrameCount(0);
 
                     }
-                    else if (cursorMod3 == Constants::Cube_Left && moves_Right & Constants::Direction_Side_L) {
+                    else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_L) {
 
                         game.incCursor(-2);
+                        game.setFrameCount(0);
 
                     }
 
