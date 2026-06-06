@@ -30,6 +30,28 @@ void title_Update() {
             if ((game.getFrameCount() > 24) && (justPressed & A_BUTTON)) {
 
                 a.initRandomSeed(); 
+                gameState = GameState::Title_Size;
+                levelSelect.setACounter(11);
+                titleCounter = 0;
+
+            }
+            break;
+
+        case GameState::Title_Size:
+
+            if (justPressed & UP_BUTTON && game.getPuzzleSize() == PuzzleSize::Large) {
+                game.setPuzzleSize(PuzzleSize::Small);
+                saveCookie();
+            }
+
+            if (justPressed & DOWN_BUTTON && game.getPuzzleSize() == PuzzleSize::Small) {
+                game.setPuzzleSize(PuzzleSize::Large);
+                saveCookie();
+            }
+
+            if ((game.getFrameCount() > 24) && (justPressed & A_BUTTON)) {
+
+                a.initRandomSeed(); 
                 gameState = GameState::Title_Select;
                 levelSelect.setACounter(11);
                 titleCounter = 0;
@@ -70,11 +92,11 @@ void title_Update() {
                 levelSelect.setX(levelSelect.getX() - 1);
             }
 
-            if (justPressed & RIGHT_BUTTON && levelSelect.getX() < 3 && game.getPuzzle(levelSelect.getSelectedPuzzle() + 1).getStatus() != PuzzleStatus::Locked) {
+            if (justPressed & RIGHT_BUTTON && levelSelect.getX() < 3 && game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), levelSelect.getSelectedPuzzle() + 1).getStatus() != PuzzleStatus::Locked) {
                 levelSelect.setX(levelSelect.getX() + 1);
             }
 
-            if (justPressed & DOWN_BUTTON && levelSelect.getY() < 5 && game.getPuzzle(levelSelect.getSelectedPuzzle() + 4).getStatus() != PuzzleStatus::Locked) {
+            if (justPressed & DOWN_BUTTON && levelSelect.getY() < 5 && game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), levelSelect.getSelectedPuzzle() + 4).getStatus() != PuzzleStatus::Locked) {
                 levelSelect.setY(levelSelect.getY() + 1);
             }
 
@@ -88,7 +110,7 @@ void title_Update() {
 
             if (justPressed & A_BUTTON) {
 
-                cookieReset();
+                cookieReset(static_cast<uint8_t>(game.getPuzzleSize()));
                 saveCookie();
                 levelSelect.setACounter(11);
                 levelSelect.setBCounter(11);   
@@ -129,13 +151,20 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
             SpritesU::drawPlusMaskFX(0, 25, Images::Title, currentPlane);
             break;
 
+        case GameState::Title_Size:
+
+            imageIdx = 13 - (game.getFrameCount() % 140) / 10;
+            SpritesU::drawOverwriteFX(35, 0, Images::Rotate, (imageIdx * 3) + currentPlane);
+            SpritesU::drawPlusMaskFX(20, 12, Images::Size, (static_cast<uint8_t>(game.getPuzzleSize()) * 3) + currentPlane);
+            break;
+
         case GameState::Title_Select:
             
             for (uint8_t y = 0; y < 6; y++) {
 
                 for (uint8_t x = 0; x < 4; x++) {
 
-                    Puzzle &puzzle = game.getPuzzle((y * 4) + x);
+                    Puzzle &puzzle = game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), (y * 4) + x);
 
                     if (puzzle.getStatus() == PuzzleStatus::Complete) {
 
@@ -165,11 +194,11 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 
                 SpritesU::drawOverwriteFX(128 - 53, 0, Images::Levels_HUD, (levelSelect.getY() * 3) + currentPlane);
                 SpritesU::drawOverwriteFX(128 - 53 + 40, 2, Images::Levels_Number, (levelSelect.getSelectedPuzzle() * 3) + currentPlane);
-                SpritesU::drawOverwriteFX(128 - 53 + 9, 17, Images::Levels_Status, (static_cast<uint8_t>(game.getPuzzle(levelSelect.getSelectedPuzzle()).getStatus()) * 3) + currentPlane);
+                SpritesU::drawOverwriteFX(128 - 53 + 9, 17, Images::Levels_Status, (static_cast<uint8_t>(game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), levelSelect.getSelectedPuzzle()).getStatus()) * 3) + currentPlane);
 
-                if (game.getPuzzle(levelSelect.getSelectedPuzzle()).getStatus() == PuzzleStatus::Complete) {
+                if (game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), levelSelect.getSelectedPuzzle()).getStatus() == PuzzleStatus::Complete) {
 
-                    uint16_t time = game.getPuzzle(levelSelect.getSelectedPuzzle()).getTime();
+                    uint16_t time = game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), levelSelect.getSelectedPuzzle()).getTime();
                     SpritesU::drawOverwriteFX(128 - 53 + 7, 32, Images::Levels_Time, currentPlane);
                     SpritesU::drawOverwriteFX(106, 32, Images::Levels_Time_Numbers, ((time / 1000) * 3) + currentPlane);
                     SpritesU::drawOverwriteFX(111, 32, Images::Levels_Time_Numbers, (((time % 1000) / 100) * 3) + currentPlane);

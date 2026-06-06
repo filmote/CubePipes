@@ -130,15 +130,15 @@ convert_header(IMAGES + 'HUD/Numbers_HUD.png',                                  
 
 convert_header(IMAGES + 'Numbers/Numbers_5x3_2D_WB.png',                            BASE + 'Images.hpp', 'Numbers_5x3_2D_WB', 4, 8, 8)
 
-convert_header(IMAGES + 'Block_Left_01.png',                                        BASE + 'Images.hpp', 'Block_Left_01', 4, 12, 16)
-convert_header(IMAGES + 'Block_Left_02.png',                                        BASE + 'Images.hpp', 'Block_Left_02', 4, 12, 16)
-convert_header(IMAGES + 'Block_Left_03.png',                                        BASE + 'Images.hpp', 'Block_Left_03', 4, 12, 16)
-convert_header(IMAGES + 'Block_Left_04.png',                                        BASE + 'Images.hpp', 'Block_Left_04', 4, 12, 16)
+# convert_header(IMAGES + 'Block_Left_01.png',                                        BASE + 'Images.hpp', 'Block_Left_01', 4, 12, 24)
+# convert_header(IMAGES + 'Block_Left_02.png',                                        BASE + 'Images.hpp', 'Block_Left_02', 4, 12, 24)
+# convert_header(IMAGES + 'Block_Left_03.png',                                        BASE + 'Images.hpp', 'Block_Left_03', 4, 12, 24)
+# convert_header(IMAGES + 'Block_Left_04.png',                                        BASE + 'Images.hpp', 'Block_Left_04', 4, 12, 24)
 
-convert_header(IMAGES + 'Block_Right_01.png',                                       BASE + 'Images.hpp', 'Block_Right_01', 4, 12, 16)
-convert_header(IMAGES + 'Block_Right_02.png',                                       BASE + 'Images.hpp', 'Block_Right_02', 4, 12, 16)
-convert_header(IMAGES + 'Block_Right_03.png',                                       BASE + 'Images.hpp', 'Block_Right_03', 4, 12, 16)
-convert_header(IMAGES + 'Block_Right_04.png',                                       BASE + 'Images.hpp', 'Block_Right_04', 4, 12, 16)
+# convert_header(IMAGES + 'Block_Right_01.png',                                       BASE + 'Images.hpp', 'Block_Right_01', 4, 12, 24)
+# convert_header(IMAGES + 'Block_Right_02.png',                                       BASE + 'Images.hpp', 'Block_Right_02', 4, 12, 24)
+# convert_header(IMAGES + 'Block_Right_03.png',                                       BASE + 'Images.hpp', 'Block_Right_03', 4, 12, 24)
+# convert_header(IMAGES + 'Block_Right_04.png',                                       BASE + 'Images.hpp', 'Block_Right_04', 4, 12, 24)
 
 convert_header(IMAGES + 'Block_Top_01.png',                                         BASE + 'Images.hpp', 'Block_Top_01', 4, 23, 16)
 convert_header(IMAGES + 'Block_Top_02.png',                                         BASE + 'Images.hpp', 'Block_Top_02', 4, 23, 16)
@@ -150,13 +150,8 @@ convert_header(IMAGES + 'Cursor_Top.png',                                       
 convert_header(IMAGES + 'Cursor_Left.png',                                          BASE + 'Images.hpp', 'Cursor_Left', 4)
 convert_header(IMAGES + 'Cursor_Right.png',                                         BASE + 'Images.hpp', 'Cursor_Right', 4)
 
-# convert_header(IMAGES + 'Background_07.png',                                        BASE + 'Images.hpp', 'Background_07', 4)
 convert_header(IMAGES + 'Complete.png',                                             BASE + 'Images.hpp', 'Complete', 4)
 convert_header(IMAGES + 'GameOver.png',                                             BASE + 'Images.hpp', 'GameOver', 4)
 
 convert_header(IMAGES + 'Rotate/Rotate.png',                                        BASE + 'Images.hpp', 'Rotate', 4, 57, 64)
-
-convert_header(IMAGES + 'Block_Grey.png',                                           BASE + 'Images.hpp', 'Block_Grey', 4, 23, 32)
-# convert_header(IMAGES + 'Block_Grey_00.png',                                        BASE + 'Images.hpp', 'Block_Grey_00', 4)
-# convert_header(IMAGES + 'Block_Grey_01.png',                                        BASE + 'Images.hpp', 'Block_Grey_01', 4)
-# convert_header(IMAGES + 'Block_Grey_02.png',                                        BASE + 'Images.hpp', 'Block_Grey_02', 4)
+convert_header(IMAGES + 'Size.png',                                                  BASE + 'Images.hpp', 'Size', 4, 82, 48)

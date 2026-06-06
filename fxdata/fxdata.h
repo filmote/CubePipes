@@ -6,8 +6,8 @@ using uint24_t = __uint24;
 
 // Initialize FX hardware using  FX::begin(FX_DATA_PAGE); in the setup() function.
 
-constexpr uint16_t FX_DATA_PAGE  = 0xfec2;
-constexpr uint24_t FX_DATA_BYTES = 77223;
+constexpr uint16_t FX_DATA_PAGE  = 0xfebd;
+constexpr uint24_t FX_DATA_BYTES = 78503;
 
 constexpr uint16_t FX_SAVE_PAGE  = 0xfff0;
 constexpr uint24_t FX_SAVE_BYTES = 2;
@@ -32,24 +32,16 @@ namespace Images
   constexpr uint24_t Mini_HUD = 0x008689;
   constexpr uint24_t Numbers_HUD = 0x00874B;
   constexpr uint24_t Numbers_5x3_2D_WB = 0x0090AD;
-  constexpr uint24_t Block_Left_01 = 0x009A0F;
-  constexpr uint24_t Block_Left_02 = 0x009C51;
-  constexpr uint24_t Block_Left_03 = 0x009E93;
-  constexpr uint24_t Block_Left_04 = 0x00A0D5;
-  constexpr uint24_t Block_Right_01 = 0x00A317;
-  constexpr uint24_t Block_Right_02 = 0x00A559;
-  constexpr uint24_t Block_Right_03 = 0x00A79B;
-  constexpr uint24_t Block_Right_04 = 0x00A9DD;
-  constexpr uint24_t Block_Top_01 = 0x00AC1F;
-  constexpr uint24_t Block_Top_02 = 0x00B071;
-  constexpr uint24_t Block_Top_03 = 0x00B4C3;
-  constexpr uint24_t Block_Top_04 = 0x00B915;
-  constexpr uint24_t Cursor_Top = 0x00BD67;
-  constexpr uint24_t Cursor_Left = 0x00BE7D;
-  constexpr uint24_t Cursor_Right = 0x00BF57;
-  constexpr uint24_t Complete = 0x00C031;
-  constexpr uint24_t GameOver = 0x00C891;
-  constexpr uint24_t Rotate = 0x00D193;
-  constexpr uint24_t Block_Grey = 0x011C65;
+  constexpr uint24_t Block_Top_01 = 0x009A0F;
+  constexpr uint24_t Block_Top_02 = 0x00A2B1;
+  constexpr uint24_t Block_Top_03 = 0x00AB53;
+  constexpr uint24_t Block_Top_04 = 0x00B3F5;
+  constexpr uint24_t Cursor_Top = 0x00BC97;
+  constexpr uint24_t Cursor_Left = 0x00BDAD;
+  constexpr uint24_t Cursor_Right = 0x00BE87;
+  constexpr uint24_t Complete = 0x00BF61;
+  constexpr uint24_t GameOver = 0x00C7C1;
+  constexpr uint24_t Rotate = 0x00D0C3;
+  constexpr uint24_t Size = 0x011B95;
 }
 

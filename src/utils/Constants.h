@@ -2,7 +2,7 @@
 #include "../../fxdata/fxdata.h"
 #include "../../fxdata/images/Images.h"
 
-#define _DEBUG
+#define DEBUG
 #define _DEBUG_PRINT    Serial.print
 #define _DEBUG_PRINTLN  Serial.println
 #define DEBUG_BREAK    asm volatile("break\n");
@@ -39,7 +39,7 @@ namespace Constants {
     constexpr uint8_t Direction_Side_L = 8;
 
 
-    constexpr uint8_t Valid_Moves[7][3] = { 
+    constexpr uint8_t Valid_Moves_00[7][3] = { 
 
         { 4 + 8 + 16, 1 + 2 + 4, 1 + 2 + 4 + 8 },
         { 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 4 + 8 },
@@ -53,9 +53,49 @@ namespace Constants {
 
     };
 
+    constexpr uint8_t Valid_Moves_01[19][3] = { 
 
-    constexpr uint8_t Block_XPos[] = { 41, 63, 30, 52, 74, 41, 63 };
-    constexpr uint8_t Block_YPos[] = { 1, 1, 19, 19, 19, 37, 37 };
+        { 4 + 8 + 16, 1 + 2 + 4, 1 + 2 + 4 + 8 },
+        { 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 4 + 8 },
+
+        { 2 + 4 + 8 + 16, 1 + 2 + 4, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 4 + 8 },
+
+        { 2 + 4 + 8 + 16, 1 + 2 + 4, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 32, 1 + 2 + 4 + 8, 1 + 8 },
+
+        { 1 + 2 + 4 + 8 + 16, 1 + 2, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 2 + 4 + 8 },
+        { 1 + 2 + 4 + 8 + 32, 1 + 2 + 8, 1 + 8},
+
+        { 1 + 2 + 4 + 8 + 16, 1 + 2, 1 + 2 + 8 },
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 4 + 8, 1 + 8},
+        { 1 + 2 + 4 + 8 + 16 + 32, 1 + 2 + 8, 1 + 8}
+
+    };
+
+    constexpr uint8_t Block_XPos_00[] = { 41, 63, 30, 52, 74, 41, 63 };
+    constexpr uint8_t Block_YPos_00[] = { 0, 0, 18, 18, 18, 36, 36 };
+
+    const uint8_t Block_XPos_01[] = { 
+        25, 47, 69, 
+        14, 36, 58, 80,
+        3, 25, 47, 69, 91, 
+        14, 36, 58, 80,
+        25, 47, 69  };
+    const uint8_t Block_YPos_01[] = { 
+        0, 0, 0, 
+        18, 18, 18, 18, 
+        36, 36, 36, 36, 36,  
+        54, 54, 54, 54, 
+        72, 72, 72 };
 
     constexpr uint8_t Cube_Right = 2;
     constexpr uint8_t Cube_Top = 0;

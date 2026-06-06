@@ -12,7 +12,6 @@
 #include "fxdata/fxdata.h"
 #include "fxdata/images/Images.h"
 #include "src/entities/Cookie.h"
-#include "src/entities/Puff.h"
 #include "src/entities/LevelSelect.h"
 #include "src/entities/PopoutMenu.h"
 
@@ -37,9 +36,8 @@ GameState gameState = GameState::SplashScreen_Start;
 uint8_t titleCounter = 0;
 LevelSelect levelSelect;
 PopoutMenu popoutMenu;
-Puff puff;
 
-
+int8_t yOffset = 0;
 
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -68,7 +66,8 @@ void setup() {
 
     if (!cookie.isInitialised) {
 
-        cookieReset();
+        cookieReset(0);
+        cookieReset(1);
         cookie.isInitialised = true;
         saveCookie();
         

@@ -9,9 +9,21 @@ void checkResult() {
 
     uint8_t completed = 0;
 
-	for (uint8_t i = 0; i < 21; i++) {
+	for (uint8_t i = 0; i < game.getNumberOfCubes(); i++) {
 	
-        uint8_t v = pgm_read_byte(&puzzles[game.getLevel()][i]);
+        uint8_t v = 0;
+
+        switch (game.getPuzzleSize()) {
+        
+            case PuzzleSize::Small:
+                v = pgm_read_byte(&puzzles_00[game.getLevel()][i]);
+                break;
+        
+            case PuzzleSize::Large:
+                v = pgm_read_byte(&puzzles_01[game.getLevel()][i]);
+                break;
+
+        }
 
 		if (game.puzzle[i] != v) {
 		
@@ -25,12 +37,12 @@ void checkResult() {
 
     // Complete ?
 
-    game.getPuzzle(game.getLevel()).setStatus(PuzzleStatus::Complete);
-    game.getPuzzle(game.getLevel()).setTime(game.getTime());
+    game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setStatus(PuzzleStatus::Complete);
+    game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setTime(game.getTime());
 
     for (uint8_t i = 0; i < Constants::Level_Count; i++) {
 
-        if (game.getPuzzle(i).getStatus() == PuzzleStatus::Complete) {
+        if (game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), i).getStatus() == PuzzleStatus::Complete) {
             completed++;
         }
 
@@ -57,27 +69,43 @@ void play_Init() {
     game.setTime(0);
     endOfGame = GameOver::No;
 
-    memcpy_P(game.puzzle, puzzles[game.getLevel()], 21);
-    memcpy_P(game.puzzle_Orig, puzzles[game.getLevel()], 21);
+
+    switch (game.getPuzzleSize()) {
+    
+        case PuzzleSize::Small:
+            memcpy_P(game.puzzle, puzzles_00[game.getLevel()], game.getNumberOfCubes());
+            memcpy_P(game.puzzle_Orig, puzzles_00[game.getLevel()], game.getNumberOfCubes());
+            break;
+    
+        case PuzzleSize::Large:
+            memcpy_P(game.puzzle, puzzles_01[game.getLevel()], game.getNumberOfCubes());
+            memcpy_P(game.puzzle_Orig, puzzles_01[game.getLevel()], game.getNumberOfCubes());
+            break;
+    
+    }
+
     game.setCursor(0);
 
-	for (uint8_t i = 0; i < 21; i++) { // SJH
+    
+    // Mess up  puzzle ..
+
+	// for (uint8_t i = 0; i < game.getNumberOfCubes(); i++) { // SJH
 	// for (uint8_t i = 0; i < 1; i++) {
 	
-        if ((game.puzzle[i] & 0xF0) == Constants::Block_Line) {
+    //     if ((game.puzzle[i] & 0xF0) == Constants::Block_Line) {
 
-    		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,2)));
+    // 		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,2)));
 
-        }
-        else {
+    //     }
+    //     else {
 
-    		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
+    // 		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
 
-        }
+    //     }
         
-	}
+	// }
 
-	for (uint8_t i = 0; i < 21; i++) {
+	for (uint8_t i = 0; i < game.getNumberOfCubes(); i++) {
 	
 		game.puzzle_Orig[i] = game.puzzle[i];
 		game.puzzle_Grey[i] = 0;
@@ -119,7 +147,7 @@ void handleMenu(uint8_t justPressed) {
             case 1:
                 popoutMenu.setAllowClose(true);
                 game.setCursor(0);
-                memcpy(game.puzzle, game.puzzle_Orig, 21);
+                memcpy(game.puzzle, game.puzzle_Orig, game.getNumberOfCubes());
                 popoutMenu.setDirection(Direction::Right);
                 
                 break;
@@ -204,9 +232,25 @@ void play_Update() {
 
                 uint8_t cursorMod3 = game.getCursor() % 3;
 
-                uint8_t moves_Top = Constants::Valid_Moves[game.getCursor() / 3][Constants::Cube_Top];
-                uint8_t moves_Left = Constants::Valid_Moves[game.getCursor() / 3][Constants::Cube_Left];
-                uint8_t moves_Right = Constants::Valid_Moves[game.getCursor() / 3][Constants::Cube_Right];
+                uint8_t moves_Top = 0;
+                uint8_t moves_Left = 0;
+                uint8_t moves_Right = 0;
+
+                switch (game.getPuzzleSize()) {
+                
+                    case PuzzleSize::Small:
+                        moves_Top = Constants::Valid_Moves_00[game.getCursor() / 3][Constants::Cube_Top];
+                        moves_Left = Constants::Valid_Moves_00[game.getCursor() / 3][Constants::Cube_Left];
+                        moves_Right = Constants::Valid_Moves_00[game.getCursor() / 3][Constants::Cube_Right];
+                        break;
+                
+                    case PuzzleSize::Large:
+                        moves_Top = Constants::Valid_Moves_01[game.getCursor() / 3][Constants::Cube_Top];
+                        moves_Left = Constants::Valid_Moves_01[game.getCursor() / 3][Constants::Cube_Left];
+                        moves_Right = Constants::Valid_Moves_01[game.getCursor() / 3][Constants::Cube_Right];
+                        break;
+                    
+                }
 
 
                 if (a.justPressed(UP_BUTTON)) {
@@ -215,55 +259,172 @@ void play_Update() {
                     
                         if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_UL) {
 
+                            switch (game.getPuzzleSize()) {
+
+                                case PuzzleSize::Small:
+                                    break;
+
+                                case PuzzleSize::Large:
+                                    break;
+
+                            }
                             game.incCursor(-7);
                             game.setFrameCount(0);
-                            // Serial.println("Up T1");
+                            Serial.println("Up T1");
 
                         }
                         else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_UR) {
+                            switch (game.getPuzzleSize()) {
 
-                            switch (game.getCursor()) {
-                            
-                                case 6:
-                                case 9:
-                                case 12:
-                                    game.incCursor(-5);
-                                    game.setFrameCount(0);
+                                case PuzzleSize::Small:
+
+                                    switch (game.getCursor()) {
+                                    
+                                        case 6:
+                                        case 9:
+                                        case 12:
+                                            game.incCursor(-5);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 15:
+                                        case 18:
+                                            game.incCursor(-8);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                    }
+
                                     break;
 
-                                case 15:
-                                case 18:
-                                    game.incCursor(-8);
-                                    game.setFrameCount(0);
+                                case PuzzleSize::Large:
+
+                                    switch (game.getCursor()) {
+                                    
+                                        case 9:
+                                        case 12:
+                                        case 15:
+
+                            Serial.println("Up T2_1");
+                                            yOffset = 0;
+                                            game.incCursor(-8);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 21:
+                                        case 24:
+                                        case 27:
+                                        case 30:
+
+                            Serial.println("Up T2_2");
+                                            yOffset = 0;
+                                            game.incCursor(-11);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                    }
+
                                     break;
 
                             }
 
-                            // Serial.println("Up T2");
-
                         }
                         else {
+                            switch (game.getPuzzleSize()) {
 
-                            switch (game.getCursor()) {
-                            
-                                case 6:
-                                    // Serial.println("Up T3_1");
-                                    game.incCursor(-5);
-                                    game.setFrameCount(0);
+                                case PuzzleSize::Small:
+
+                                    switch (game.getCursor()) {
+                                    
+                                        case 6:
+                                            Serial.println("Up T3_1");
+                                            game.incCursor(-5);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 9:
+                                        case 12:
+                                            Serial.println("Up T3_1");
+                                            game.incCursor(-7);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 15:
+                                        case 18:
+                                            Serial.println("Up T3_2");
+                                            game.incCursor(-7);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                    }
+
                                     break;
 
-                                case 9:
-                                case 12:
-                                    // Serial.println("Up T3_1");
-                                    game.incCursor(-7);
-                                    game.setFrameCount(0);
-                                    break;
+                                case PuzzleSize::Large:
 
-                                case 15:
-                                case 18:
-                                    // Serial.println("Up T3_2");
-                                    game.incCursor(-7);
-                                    game.setFrameCount(0);
+                                    switch (game.getCursor()) {
+                                    
+                                        case 6:
+                                            yOffset = 0;
+                                            Serial.println("Up T3_1");
+                                            game.incCursor(-5);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 9:
+                                            yOffset = 0;
+                                            Serial.println("Up T3_2");
+                                            game.incCursor(-8);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 12:
+                                        case 15:
+                                        case 18:
+                                            yOffset = 0;
+                                            Serial.println("Up T3_3");
+                                            game.incCursor(-10);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 21:
+                                            yOffset = 0;
+                                            Serial.println("Up T3_4");
+                                            game.incCursor(-11);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 24:
+                                        case 27:
+                                        case 30:
+                                        case 33:
+                                            yOffset = 0;
+                                            Serial.println("Up T3_5");
+                                            game.incCursor(-13);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 36:
+                                        case 39:
+                                        case 42:
+                                        case 45:
+                                            yOffset = 1;
+                                            Serial.println("Up T3_6");
+                                            game.incCursor(-13);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                        case 48:
+                                        case 51:
+                                        case 54:
+                                            yOffset = 2;
+                                            Serial.println("Up T3_7");
+                                            game.incCursor(-10);
+                                            game.setFrameCount(0);
+                                            break;
+
+                                    }
+
                                     break;
 
                             }
@@ -274,18 +435,34 @@ void play_Update() {
                     }
 
                     else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_U) {
+                            switch (game.getPuzzleSize()) {
 
+                                case PuzzleSize::Small:
+                                    break;
+
+                                case PuzzleSize::Large:
+                                    break;
+
+                            }
                         game.incCursor(-1);
                         game.setFrameCount(0);
-                        // Serial.println("Up L");
+                        Serial.println("Up L");
 
                     }
                     
                     else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_U) {
+                            switch (game.getPuzzleSize()) {
 
+                                case PuzzleSize::Small:
+                                    break;
+
+                                case PuzzleSize::Large:
+                                    break;
+
+                            }
                         game.incCursor(-2);
                         game.setFrameCount(0);
-                        // Serial.println("Up R");
+                        Serial.println("Up R");
 
                     }
 
@@ -293,34 +470,43 @@ void play_Update() {
 
                 else if (a.justPressed(DOWN_BUTTON)) {
 
-            // Serial.print("Down ");
-            // Serial.print(moves_Top);
-            // Serial.print(" ");
-            // Serial.print(moves_Left);
-            // Serial.print(" ");
-            // Serial.println(moves_Right);
+            Serial.print("Down ");
+            Serial.print(moves_Top);
+            Serial.print(" ");
+            Serial.print(moves_Left);
+            Serial.print(" ");
+            Serial.println(moves_Right);
                 
                     if (cursorMod3 == Constants::Cube_Top && (moves_Top & Constants::Direction_Top_DL || moves_Top & Constants::Direction_Top_DR)) {
                     
                         if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_DL) {
 
+                            switch (game.getPuzzleSize()) {
+
+                                case PuzzleSize::Small:
+                                    break;
+
+                                case PuzzleSize::Large:
+                                    break;
+
+                            }
                             game.incCursor(1);
                             game.setFrameCount(0);
-                            // Serial.println("Down T1");
+                            Serial.println("Down T1");
 
                         }
                         else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_DR) {
 
                             game.incCursor(2);
                             game.setFrameCount(0);
-                            // Serial.println("Down T2");
+                            Serial.println("Down T2");
 
                         }
                         else {
 
                             game.incCursor(1);
                             game.setFrameCount(0);
-                            // Serial.println("Down T3");
+                            Serial.println("Down T3");
 
                         }
 
@@ -328,17 +514,117 @@ void play_Update() {
 
                     else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_D) {
 
-                        game.incCursor(5);
-                        game.setFrameCount(0);
-                        // Serial.println("Down L");
+                        Serial.println("here");
+                        switch (game.getPuzzleSize()) {
+
+                            case PuzzleSize::Small:
+                                game.incCursor(5);
+                                game.setFrameCount(0);
+                                break;
+
+                            case PuzzleSize::Large:
+
+                                switch (game.getCursor()) {
+
+                                    case 1:
+                                    case 4:
+                                    case 7:
+                                        yOffset = 0;
+                                        game.incCursor(8);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 10:
+                                    case 13:
+                                    case 16:
+                                    case 19:
+                                        yOffset = 1;
+                                        game.incCursor(11);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 25:
+                                    case 28:
+                                    case 31:
+                                    case 34:
+                                        yOffset = 2;
+                                        game.incCursor(11);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 40:
+                                    case 43:
+                                    case 46:
+                                        yOffset = 2;
+                                        game.incCursor(8);
+                                        game.setFrameCount(0);
+                                        break;
+                                }
+
+                                break;
+
+                        }
+                        Serial.println("Down L");
 
                     }
                     
                     else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_D) {
 
-                        game.incCursor(7);
-                        game.setFrameCount(0);
-                        // Serial.println("Down R");
+                        switch (game.getPuzzleSize()) {
+
+                            case PuzzleSize::Small:
+                                game.incCursor(7);
+                                game.setFrameCount(0);
+                                break;
+
+                            case PuzzleSize::Large:
+
+                                switch (game.getCursor()) {
+
+                                    case 2:
+                                    case 5:
+                                    case 8:
+                                        yOffset = 0;
+                                        game.incCursor(10);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 11:
+                                    case 14:
+                                    case 17:
+                                    case 20:
+                                        yOffset = 1;
+                                        game.incCursor(13);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 23:
+                                        yOffset = 2;
+                                        game.incCursor(13);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 26:
+                                    case 29:
+                                    case 32:
+                                        yOffset = 2;
+                                        game.incCursor(13);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                    case 38:
+                                    case 41:
+                                    case 44:
+                                        yOffset = 2;
+                                        game.incCursor(10);
+                                        game.setFrameCount(0);
+                                        break;
+
+                                }                                
+                                break;
+
+                        }
+                        Serial.println("Down R");
 
                     }
 
@@ -416,14 +702,14 @@ void play_Update() {
                     titleCounter = 0;
                     endOfGame = GameOver::No;
                 
-                    game.getPuzzle(game.getLevel()).setStatus(PuzzleStatus::Complete);
-                    game.getPuzzle(game.getLevel()).setTime(game.getTime());
+                    game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setStatus(PuzzleStatus::Complete);
+                    game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setTime(game.getTime());
                     
                     uint8_t completed = 0;
 
                     for (uint8_t i = 0; i < Constants::Level_Count; i++) {
 
-                        if (game.getPuzzle(i).getStatus() == PuzzleStatus::Complete) {
+                        if (game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), i).getStatus() == PuzzleStatus::Complete) {
                             completed++;
                         }
 
@@ -436,10 +722,10 @@ void play_Update() {
                     }
                     else {
 
-                        if (game.getLevel() < Constants::Level_Count - 1 && game.getPuzzle(game.getLevel() + 1).getStatus() != PuzzleStatus::Complete) {
+                        if (game.getLevel() < Constants::Level_Count - 1 && game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel() + 1).getStatus() != PuzzleStatus::Complete) {
 
                             gameState = GameState::Play_Init;
-                            game.getPuzzle(game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
+                            game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
                             game.setLevel(game.getLevel() + 1);
                             levelSelect.increaseGame();
 
@@ -512,7 +798,7 @@ void play_Update() {
         titleCounter++;
 
         gameState = GameState::Play_Init;
-        game.getPuzzle(game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
+        game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
         game.setLevel(game.getLevel() + 1);
         levelSelect.increaseGame();
     

@@ -6,6 +6,11 @@ enum PuzzleStatus : uint8_t {
     InProgress,
 };
 
+enum PuzzleSize : uint8_t { 
+    Small,
+    Large,
+};
+
 enum class GameOver : uint8_t { 
     No,
     LevelOver, 
@@ -24,6 +29,7 @@ enum class GameState : uint8_t {
     Title_Init,
     Title_Start,
         Title_Main = Title_Start,
+        Title_Size,
         Title_Select,
         Title_Clear_Progress,
     Title_End,

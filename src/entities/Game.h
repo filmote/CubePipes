@@ -10,13 +10,13 @@ struct Game {
 
     public:
 
-        uint8_t puzzle_Orig[21] ;
-        uint8_t puzzle[21];
-        uint8_t puzzle_Grey[21];
+        uint8_t puzzle_Orig[57] ;
+        uint8_t puzzle[57];
+        uint8_t puzzle_Grey[57];
 
     private:
 
-        uint8_t saveData[Constants::Undo_Count][21];
+        uint8_t saveData[Constants::Undo_Count][57];
         uint8_t savePosition[Constants::Undo_Count];
         uint8_t level = 0;
         int8_t world_Y_Offset = 0;
@@ -26,7 +26,8 @@ struct Game {
         uint8_t cursor = 0;
         uint8_t savedCursor = 0;
 
-        Puzzle puzzles[Constants::Level_Count];
+        Puzzle puzzles[2][Constants::Level_Count];
+        PuzzleSize puzzleSize = PuzzleSize::Small;
 
     public:
 
@@ -37,7 +38,9 @@ struct Game {
         uint8_t getUndoCount()                          { return this->undoCount; }
         uint16_t getTime()                              { return this->time; }
         uint16_t getCursor()                            { return this->cursor; }
-        Puzzle &getPuzzle(uint8_t level)                { return this->puzzles[level]; }
+        // Puzzle &getPuzzle(uint8_t level)                { return this->puzzles[static_cast<uint8_t>(this->getPuzzleSize())][level]; }
+        Puzzle &getPuzzle(uint8_t size, uint8_t level)  { return this->puzzles[size][level]; }
+        PuzzleSize getPuzzleSize()                      { return this->puzzleSize; }
         uint8_t getSaveData(uint8_t pos)                { return this->saveData[this->undoCount][pos]; }
 
         void setTime(uint16_t val)                      { this->time = val; }
@@ -45,6 +48,17 @@ struct Game {
         void setWorld_Y_Offset(uint8_t val)             { this->world_Y_Offset = val; }
         void setLevel(uint8_t val)                      { this->level = val; }
         void setCursor(uint8_t val)                     { this->cursor = val; }
+        void setPuzzleSize(PuzzleSize val)              { this->puzzleSize = val; }
+
+        uint8_t getNumberOfCubes()  {
+        
+            if (this->puzzleSize == PuzzleSize::Small) {
+                return 21;
+            }
+
+            return 57;
+
+        }
 
         void incCursor(int8_t val)  {
         
@@ -83,13 +97,13 @@ struct Game {
             if (this->undoCount == Constants::Undo_Count) {
 
                 for (uint8_t i = 0; i < Constants::Undo_Count - 1; i++) {
-                    memcpy(this->saveData[i], this->saveData[i + 1], 21);
+                    memcpy(this->saveData[i], this->saveData[i + 1], this->getNumberOfCubes());
                 }
 
                 this->undoCount = 7;
             }
             
-            for (uint8_t i = 0; i < 21; i++) {
+            for (uint8_t i = 0; i < this->getNumberOfCubes(); i++) {
                 this->saveData[this->undoCount][i] = this->puzzle[i];
             }
 
@@ -104,7 +118,7 @@ struct Game {
 
             this->undoCount--;
 
-            for (uint8_t i = 0; i < 21; i++) {
+            for (uint8_t i = 0; i < this->getNumberOfCubes(); i++) {
                 this->puzzle[i] = this->saveData[this->undoCount][i];
             }
 
