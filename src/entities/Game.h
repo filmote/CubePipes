@@ -38,7 +38,6 @@ struct Game {
         uint8_t getUndoCount()                          { return this->undoCount; }
         uint16_t getTime()                              { return this->time; }
         uint16_t getCursor()                            { return this->cursor; }
-        // Puzzle &getPuzzle(uint8_t level)                { return this->puzzles[static_cast<uint8_t>(this->getPuzzleSize())][level]; }
         Puzzle &getPuzzle(uint8_t size, uint8_t level)  { return this->puzzles[size][level]; }
         PuzzleSize getPuzzleSize()                      { return this->puzzleSize; }
         uint8_t getSaveData(uint8_t pos)                { return this->saveData[this->undoCount][pos]; }

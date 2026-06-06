@@ -36,21 +36,11 @@ class BaseObject {
 
         void captureMove() {
 
-            // for (uint8_t i = 0; i < Constants::Undo_Count - 1; i++) {
-            //     this->prevXY[i] = this->prevXY[i + 1];            
-            // }    
-
             this->prevXY[Constants::Undo_Count - 1] = this->xy;            
 
         }
 
         void revertMove() {
-
-            // this->xy = this->prevXY[Constants::Undo_Count - 1];            
-     
-            // for (uint8_t i = Constants::Undo_Count - 1; i > 0; i--) {
-            //     this->prevXY[i] = this->prevXY[i - 1];            
-            // }    
 
             this->prevXY[0] = 0;            
    

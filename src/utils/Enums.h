@@ -40,10 +40,6 @@ enum class GameState : uint8_t {
         Play_FadeIn,
     Play_End,
     
-    GameOver_Init,
-    GameOver_Main,
-    GameOver_Leave,
-
 };
 
 inline GameState &operator++(GameState &c) {

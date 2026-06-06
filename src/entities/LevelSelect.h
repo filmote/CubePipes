@@ -48,6 +48,13 @@ struct LevelSelect {
 
         }
 
+        void setGame(uint8_t gameIdx) {
+
+            this->x = gameIdx % 4;
+            this->y = gameIdx / 4;
+
+        }
+
         void incACounter() {
             this->aCounter++;
         }

@@ -50,7 +50,7 @@ void drawGame(uint8_t currentPlane) {
 
 	// Cursor ..
 
-    if (game.getFrameCount() % 90 < 45) {
+    if (game.getFrameCount() % 64 < 32) {
 
         uint8_t x = 0;
         uint8_t y = 0;

@@ -1,10 +1,6 @@
 #include <Arduboy2.h>
 
 
-// ----------------------------------------------------------------------------
-//  Handle state updates .. 
-//
-
 void splashScreen_Update() { 
 
     game.incFrameCount(); 
@@ -20,6 +16,7 @@ void splashScreen_Update() {
     }
 
 }
+
 
 void splashScreen(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
 

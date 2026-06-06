@@ -305,8 +305,6 @@ void play_Update() {
                                         case 12:
                                         case 15:
 
-                            Serial.println("Up T2_1");
-                                            yOffset = 0;
                                             game.incCursor(-8);
                                             game.setFrameCount(0);
                                             break;
@@ -316,8 +314,6 @@ void play_Update() {
                                         case 27:
                                         case 30:
 
-                            Serial.println("Up T2_2");
-                                            yOffset = 0;
                                             game.incCursor(-11);
                                             game.setFrameCount(0);
                                             break;
@@ -365,15 +361,11 @@ void play_Update() {
                                     switch (game.getCursor()) {
                                     
                                         case 6:
-                                            yOffset = 0;
-                                            Serial.println("Up T3_1");
                                             game.incCursor(-5);
                                             game.setFrameCount(0);
                                             break;
 
                                         case 9:
-                                            yOffset = 0;
-                                            Serial.println("Up T3_2");
                                             game.incCursor(-8);
                                             game.setFrameCount(0);
                                             break;
@@ -381,15 +373,11 @@ void play_Update() {
                                         case 12:
                                         case 15:
                                         case 18:
-                                            yOffset = 0;
-                                            Serial.println("Up T3_3");
                                             game.incCursor(-10);
                                             game.setFrameCount(0);
                                             break;
 
                                         case 21:
-                                            yOffset = 0;
-                                            Serial.println("Up T3_4");
                                             game.incCursor(-11);
                                             game.setFrameCount(0);
                                             break;
@@ -398,8 +386,6 @@ void play_Update() {
                                         case 27:
                                         case 30:
                                         case 33:
-                                            yOffset = 0;
-                                            Serial.println("Up T3_5");
                                             game.incCursor(-13);
                                             game.setFrameCount(0);
                                             break;
@@ -408,8 +394,6 @@ void play_Update() {
                                         case 39:
                                         case 42:
                                         case 45:
-                                            yOffset = 1;
-                                            Serial.println("Up T3_6");
                                             game.incCursor(-13);
                                             game.setFrameCount(0);
                                             break;
@@ -417,8 +401,6 @@ void play_Update() {
                                         case 48:
                                         case 51:
                                         case 54:
-                                            yOffset = 2;
-                                            Serial.println("Up T3_7");
                                             game.incCursor(-10);
                                             game.setFrameCount(0);
                                             break;
@@ -435,78 +417,41 @@ void play_Update() {
                     }
 
                     else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_U) {
-                            switch (game.getPuzzleSize()) {
 
-                                case PuzzleSize::Small:
-                                    break;
-
-                                case PuzzleSize::Large:
-                                    break;
-
-                            }
                         game.incCursor(-1);
                         game.setFrameCount(0);
-                        Serial.println("Up L");
 
                     }
                     
                     else if (cursorMod3 == Constants::Cube_Right && moves_Right & Constants::Direction_Side_U) {
-                            switch (game.getPuzzleSize()) {
 
-                                case PuzzleSize::Small:
-                                    break;
-
-                                case PuzzleSize::Large:
-                                    break;
-
-                            }
                         game.incCursor(-2);
                         game.setFrameCount(0);
-                        Serial.println("Up R");
 
                     }
 
                 }
 
                 else if (a.justPressed(DOWN_BUTTON)) {
-
-            Serial.print("Down ");
-            Serial.print(moves_Top);
-            Serial.print(" ");
-            Serial.print(moves_Left);
-            Serial.print(" ");
-            Serial.println(moves_Right);
                 
                     if (cursorMod3 == Constants::Cube_Top && (moves_Top & Constants::Direction_Top_DL || moves_Top & Constants::Direction_Top_DR)) {
                     
                         if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_DL) {
 
-                            switch (game.getPuzzleSize()) {
-
-                                case PuzzleSize::Small:
-                                    break;
-
-                                case PuzzleSize::Large:
-                                    break;
-
-                            }
                             game.incCursor(1);
                             game.setFrameCount(0);
-                            Serial.println("Down T1");
 
                         }
                         else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_DR) {
 
                             game.incCursor(2);
                             game.setFrameCount(0);
-                            Serial.println("Down T2");
 
                         }
                         else {
 
                             game.incCursor(1);
                             game.setFrameCount(0);
-                            Serial.println("Down T3");
 
                         }
 
@@ -514,7 +459,6 @@ void play_Update() {
 
                     else if (cursorMod3 == Constants::Cube_Left && moves_Left & Constants::Direction_Side_D) {
 
-                        Serial.println("here");
                         switch (game.getPuzzleSize()) {
 
                             case PuzzleSize::Small:
@@ -529,7 +473,6 @@ void play_Update() {
                                     case 1:
                                     case 4:
                                     case 7:
-                                        yOffset = 0;
                                         game.incCursor(8);
                                         game.setFrameCount(0);
                                         break;
@@ -538,7 +481,6 @@ void play_Update() {
                                     case 13:
                                     case 16:
                                     case 19:
-                                        yOffset = 1;
                                         game.incCursor(11);
                                         game.setFrameCount(0);
                                         break;
@@ -547,7 +489,6 @@ void play_Update() {
                                     case 28:
                                     case 31:
                                     case 34:
-                                        yOffset = 2;
                                         game.incCursor(11);
                                         game.setFrameCount(0);
                                         break;
@@ -555,7 +496,6 @@ void play_Update() {
                                     case 40:
                                     case 43:
                                     case 46:
-                                        yOffset = 2;
                                         game.incCursor(8);
                                         game.setFrameCount(0);
                                         break;
@@ -564,7 +504,6 @@ void play_Update() {
                                 break;
 
                         }
-                        Serial.println("Down L");
 
                     }
                     
@@ -584,7 +523,6 @@ void play_Update() {
                                     case 2:
                                     case 5:
                                     case 8:
-                                        yOffset = 0;
                                         game.incCursor(10);
                                         game.setFrameCount(0);
                                         break;
@@ -593,13 +531,11 @@ void play_Update() {
                                     case 14:
                                     case 17:
                                     case 20:
-                                        yOffset = 1;
                                         game.incCursor(13);
                                         game.setFrameCount(0);
                                         break;
 
                                     case 23:
-                                        yOffset = 2;
                                         game.incCursor(13);
                                         game.setFrameCount(0);
                                         break;
@@ -607,7 +543,6 @@ void play_Update() {
                                     case 26:
                                     case 29:
                                     case 32:
-                                        yOffset = 2;
                                         game.incCursor(13);
                                         game.setFrameCount(0);
                                         break;
@@ -615,7 +550,6 @@ void play_Update() {
                                     case 38:
                                     case 41:
                                     case 44:
-                                        yOffset = 2;
                                         game.incCursor(10);
                                         game.setFrameCount(0);
                                         break;
@@ -624,21 +558,12 @@ void play_Update() {
                                 break;
 
                         }
-                        Serial.println("Down R");
 
                     }
 
                 }
 
-
                 else if (a.justPressed(RIGHT_BUTTON)) {
-
-            // Serial.print("Right ");
-            // Serial.print(moves_Top);
-            // Serial.print(" ");
-            // Serial.print(moves_Left);
-            // Serial.print(" ");
-            // Serial.println(moves_Right);
 
                     if (cursorMod3 == Constants::Cube_Top && moves_Top & Constants::Direction_Top_R) {
 
@@ -663,13 +588,6 @@ void play_Update() {
 
 
                 else if (a.justPressed(LEFT_BUTTON)) {
-
-            // Serial.print("Left ");
-            // Serial.print(moves_Top);
-            // Serial.print(" ");
-            // Serial.print(moves_Left);
-            // Serial.print(" ");
-            // Serial.println(moves_Right);
 
                     if (cursorMod3 == Constants::Cube_Top && moves_Top & Constants::Direction_Top_L) {
 
@@ -699,18 +617,21 @@ void play_Update() {
 
                 if (justPressed & A_BUTTON) {
 
-                    titleCounter = 0;
                     endOfGame = GameOver::No;
                 
                     game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setStatus(PuzzleStatus::Complete);
                     game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setTime(game.getTime());
                     
                     uint8_t completed = 0;
+                    uint8_t nextGame = 0;
 
                     for (uint8_t i = 0; i < Constants::Level_Count; i++) {
 
                         if (game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), i).getStatus() == PuzzleStatus::Complete) {
                             completed++;
+                        }
+                        else {
+                            nextGame = i;
                         }
 
                     }
@@ -722,19 +643,10 @@ void play_Update() {
                     }
                     else {
 
-                        if (game.getLevel() < Constants::Level_Count - 1 && game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel() + 1).getStatus() != PuzzleStatus::Complete) {
-
-                            gameState = GameState::Play_Init;
-                            game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
-                            game.setLevel(game.getLevel() + 1);
-                            levelSelect.increaseGame();
-
-                        }
-                        else {
-
-                            gameState = GameState::Title_Select;
-
-                        }
+                        gameState = GameState::Play_Init;
+                        game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), nextGame).setStatus(PuzzleStatus::InProgress);
+                        game.setLevel(nextGame);
+                        levelSelect.setGame(nextGame);
 
                     }
 
@@ -751,6 +663,33 @@ void play_Update() {
 
         }
 
+
+        // Calculate y offset ..
+
+        if (game.getPuzzleSize() == PuzzleSize::Small) {
+        
+            yOffset = 0;
+            
+        }
+        else {
+        
+            switch (game.getCursor()) {
+            
+                case 0 ... 20:
+                    yOffset = 0;
+                    break;
+
+                case 21 ... 35:
+                    yOffset = 1;
+                    break;
+
+                default:
+                    yOffset = 2;
+                    break;
+            
+            }
+
+        }
 
 
             
@@ -794,8 +733,6 @@ void play_Update() {
 
     }
     else {
-
-        titleCounter++;
 
         gameState = GameState::Play_Init;
         game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel() + 1).setStatus(PuzzleStatus::InProgress);
