@@ -74,12 +74,10 @@ void play_Init() {
     
         case PuzzleSize::Small:
             memcpy_P(game.puzzle, puzzles_00[game.getLevel()], game.getNumberOfCubes());
-            memcpy_P(game.puzzle_Orig, puzzles_00[game.getLevel()], game.getNumberOfCubes());
             break;
     
         case PuzzleSize::Large:
             memcpy_P(game.puzzle, puzzles_01[game.getLevel()], game.getNumberOfCubes());
-            memcpy_P(game.puzzle_Orig, puzzles_01[game.getLevel()], game.getNumberOfCubes());
             break;
     
     }
@@ -87,23 +85,25 @@ void play_Init() {
     game.setCursor(0);
 
     
-    // Mess up  puzzle ..
+    // Mess up puzzle ..
 
-	// for (uint8_t i = 0; i < game.getNumberOfCubes(); i++) { // SJH
-	// for (uint8_t i = 0; i < 1; i++) {
+	for (uint8_t i = 0; i < game.getNumberOfCubes(); i++) { 
 	
-    //     if ((game.puzzle[i] & 0xF0) == Constants::Block_Line) {
+        if ((game.puzzle[i] & 0xF0) == Constants::Block_Line) {
 
-    // 		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,2)));
+    		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,2)));
 
-    //     }
-    //     else {
+        }
+        else {
 
-    // 		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
+    		game.puzzle[i] = (game.puzzle[i] & 0xf0) | (0x0f & static_cast<uint8_t>(random(0,4)));
 
-    //     }
+        }
         
-	// }
+	}
+
+
+    // Copy current puzzle into restore array ..
 
 	for (uint8_t i = 0; i < game.getNumberOfCubes(); i++) {
 	
@@ -259,18 +259,8 @@ void play_Update() {
                     
                         if (a.pressed(LEFT_BUTTON) && moves_Top & Constants::Direction_Top_UL) {
 
-                            switch (game.getPuzzleSize()) {
-
-                                case PuzzleSize::Small:
-                                    break;
-
-                                case PuzzleSize::Large:
-                                    break;
-
-                            }
                             game.incCursor(-7);
                             game.setFrameCount(0);
-                            Serial.println("Up T1");
 
                         }
                         else if (a.pressed(RIGHT_BUTTON) && moves_Top & Constants::Direction_Top_UR) {
@@ -333,21 +323,18 @@ void play_Update() {
                                     switch (game.getCursor()) {
                                     
                                         case 6:
-                                            Serial.println("Up T3_1");
                                             game.incCursor(-5);
                                             game.setFrameCount(0);
                                             break;
 
                                         case 9:
                                         case 12:
-                                            Serial.println("Up T3_1");
                                             game.incCursor(-7);
                                             game.setFrameCount(0);
                                             break;
 
                                         case 15:
                                         case 18:
-                                            Serial.println("Up T3_2");
                                             game.incCursor(-7);
                                             game.setFrameCount(0);
                                             break;
@@ -623,7 +610,7 @@ void play_Update() {
                     game.getPuzzle(static_cast<uint8_t>(game.getPuzzleSize()), game.getLevel()).setTime(game.getTime());
                     
                     uint8_t completed = 0;
-                    uint8_t nextGame = 0;
+                    uint8_t nextGame = 255;
 
                     for (uint8_t i = 0; i < Constants::Level_Count; i++) {
 
@@ -631,7 +618,7 @@ void play_Update() {
                             completed++;
                         }
                         else {
-                            nextGame = i;
+                            if (nextGame == 255) nextGame = i;
                         }
 
                     }

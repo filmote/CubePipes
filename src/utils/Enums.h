@@ -17,6 +17,12 @@ enum class GameOver : uint8_t {
     GameOver,
 };
 
+enum Direction : uint8_t { 
+    None,
+    Left,
+    Right,
+};
+
 enum class GameState : uint8_t {
 
     SplashScreen_Start,
@@ -40,32 +46,4 @@ enum class GameState : uint8_t {
         Play_FadeIn,
     Play_End,
     
-};
-
-inline GameState &operator++(GameState &c) {
-    c = static_cast<GameState>( static_cast<uint8_t>(c) + 1 );
-    return c;
-}
-
-inline GameState operator++(GameState &c, int) {
-    GameState result = c;
-    ++c;
-    return result;
-}
-
-inline GameState &operator--(GameState &c) {
-    c = static_cast<GameState>( static_cast<uint8_t>(c) - 1 );
-    return c;
-}
-
-inline GameState operator--(GameState &c, int) {
-    GameState result = c;
-    --c;
-    return result;
-}
-
-enum Direction : uint8_t { 
-    None,
-    Left,
-    Right,
 };

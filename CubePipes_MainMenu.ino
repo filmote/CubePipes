@@ -51,6 +51,16 @@ void title_Update() {
 
             if ((game.getFrameCount() > 24) && (justPressed & A_BUTTON)) {
 
+                uint8_t nextGame = 0;
+
+                for (uint8_t i = 0; i < Constants::Level_Count; i++) {
+
+                    nextGame = i;
+                    break;
+
+                }
+
+                levelSelect.setGame(nextGame);
                 a.initRandomSeed(); 
                 gameState = GameState::Title_Select;
                 levelSelect.setACounter(11);
@@ -161,6 +171,8 @@ void title(ArduboyGBase_Config<ABG_Mode::L4_Triplane> &a) {
         case GameState::Title_Select:
             
             for (uint8_t y = 0; y < 6; y++) {
+
+                if (((y * 18) - yOffset < -18) || ((y * 18) - yOffset) >= 63) continue;
 
                 for (uint8_t x = 0; x < 4; x++) {
 

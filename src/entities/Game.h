@@ -3,7 +3,6 @@
 #include <Arduboy2.h>
 #include "../utils/Constants.h"
 #include "../utils/Enums.h"
-#include "Player.h"
 #include "Puzzle.h"
 
 struct Game {

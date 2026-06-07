@@ -37,36 +37,36 @@ void cookieReset(uint8_t size) {
     for (uint8_t i = 0; i < 24; i++) {
 
         #ifdef _DEBUG
-        if (i < 23) { //SJH
-            game.getPuzzle(size, i).setStatus(PuzzleStatus::InProgress);
-            game.getPuzzle(size, i).setTime(0);
-        }
-        else {
-            game.getPuzzle(size, i).setStatus(PuzzleStatus::Locked);
-            game.getPuzzle(size, i).setTime(0);
-        }
+            if (i < 23) { //SJH
+                game.getPuzzle(size, i).setStatus(PuzzleStatus::InProgress);
+                game.getPuzzle(size, i).setTime(0);
+            }
+            else {
+                game.getPuzzle(size, i).setStatus(PuzzleStatus::Locked);
+                game.getPuzzle(size, i).setTime(0);
+            }
         #endif
 
         #ifdef DEBUG
-        if (i < 23) { 
-            game.getPuzzle(size, i).setStatus(PuzzleStatus::Complete);
-            game.getPuzzle(size, i).setTime(i);
-        }
-        else {
-            game.getPuzzle(size, i).setStatus(PuzzleStatus::InProgress);
-            game.getPuzzle(size, i).setTime(0);
-        }
+            if (i < 23) { 
+                game.getPuzzle(size, i).setStatus(PuzzleStatus::Complete);
+                game.getPuzzle(size, i).setTime(i);
+            }
+            else {
+                game.getPuzzle(size, i).setStatus(PuzzleStatus::InProgress);
+                game.getPuzzle(size, i).setTime(0);
+            }
         #endif
 
         #ifndef DEBUG
-        if (i == 0) { 
-            game.getPuzzle(size, i).setStatus(PuzzleStatus::InProgress);
-            game.getPuzzle(size, i).setTime(0);
-        }
-        else {
-            game.getPuzzle(size, i).setStatus(PuzzleStatus::Locked);
-            game.getPuzzle(size, i).setTime(0);
-        }
+            if (i == 0) { 
+                game.getPuzzle(size, i).setStatus(PuzzleStatus::InProgress);
+                game.getPuzzle(size, i).setTime(0);
+            }
+            else {
+                game.getPuzzle(size, i).setStatus(PuzzleStatus::Locked);
+                game.getPuzzle(size, i).setTime(0);
+            }
         #endif
 
     }
